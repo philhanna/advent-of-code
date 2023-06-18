@@ -1,0 +1,10 @@
+Opponent's choice was paper, my choice was paper, we draw, score for this move is 5
+Opponent's choice was paper, my choice was rock, I lose, score for this move is 1
+Opponent's choice was paper, my choice was scissors, I win, score for this move is 9
+Opponent's choice was rock, my choice was paper, I win, score for this move is 8
+Opponent's choice was rock, my choice was rock, we draw, score for this move is 4
+Opponent's choice was rock, my choice was scissors, I lose, score for this move is 3
+Opponent's choice was scissors, my choice was paper, I lose, score for this move is 2
+Opponent's choice was scissors, my choice was rock, I win, score for this move is 7
+Opponent's choice was scissors, my choice was scissors, we draw, score for this move is 6
+Total score is 8933
