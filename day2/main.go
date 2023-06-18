@@ -17,17 +17,21 @@ func main() {
 	s := string(input)                 // Convert byte array to string
 	s = strings.ReplaceAll(s, " ", "") // Remove spaces
 	strategy := strings.Split(s, "\n") // Split lines into array
+	
 	totalScore := 0
 	for _, move := range strategy {
-		s1 := strings.Index("XYZ", string(move[1])) + 1
-		s2 := func(move string)int {
-			switch {
-				case strings.Contains("AY,BZ,CX", move): return 6 // I won
-				case strings.Contains("AZ,BX,CY", move): return 0 // I lost
-				default: return 3 // Draw
-				} 
+		score :=
+			func(m byte) int { return strings.Index("XYZ", string(m)) }(move[1]) +
+			func(move string) int {
+				switch {
+				case strings.Contains("AY,BZ,CX", move):
+					return 6 // I won
+				case strings.Contains("AZ,BX,CY", move):
+					return 0 // I lost
+				default:
+					return 3 // Draw
+				}
 			}(move)
-		score := s1 + s2
 		printMove(move, score)
 		totalScore += score
 	}
