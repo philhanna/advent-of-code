@@ -20,62 +20,24 @@ func main() {
 
 	totalScore := 0
 	for _, move := range strategy {
-		score :=
+		totalScore +=
+		
 			// Give yourself 1 if you chose rock, 2 if paper, 3 if scissors
-			
 			func(m byte) int {
 				return 1 + strings.Index("XYZ", string(m))
 			}(move[1]) +
 
 			// Add the part that is determined by the outcome (W/L/D)
-			
 			func(move string) int {
 				switch {
-				case strings.Contains("AY,BZ,CX", move):
-					return 6 // I won
 				case strings.Contains("AZ,BX,CY", move):
 					return 0 // I lost
 				default:
 					return 3 // Draw
+				case strings.Contains("AY,BZ,CX", move):
+					return 6 // I won
 				}
 			}(move)
-		printMove(move, score)
-		totalScore += score
 	}
 	fmt.Printf("Total score is %d\n", totalScore)
-}
-
-func printMove(move string, score int) {
-	him := move[0]
-	fmt.Print("Opponent's choice was ")
-	switch him {
-	case 'A':
-		fmt.Print("rock")
-	case 'B':
-		fmt.Print("paper")
-	case 'C':
-		fmt.Print("scissors")
-	}
-	me := move[1]
-	fmt.Print(", my choice was ")
-	switch me {
-	case 'X':
-		fmt.Print("rock")
-	case 'Y':
-		fmt.Print("paper")
-	case 'Z':
-		fmt.Print("scissors")
-	}
-	iWin := strings.Contains("AY,BZ,CX", move)
-	iLose := strings.Contains("AZ,BX,CY", move)
-	switch {
-	case iWin:
-		fmt.Printf(", I win")
-	case iLose:
-		fmt.Printf(", I lose")
-	default:
-		fmt.Printf(", we draw")
-	}
-	fmt.Printf(", score for this move is %d\n", score)
-
 }
