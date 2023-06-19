@@ -1,0 +1,49 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
+class Elf
+{
+    public int Number { get; set; }
+    public int Cals { get; set; }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Make a list to keep track of elf numbers and their total calories.
+        List<Elf> elves = new List<Elf>();
+
+        // Read the input data into a list, with a blank line separating the entries
+        // between the calorie records for each elf.
+        string[] inputData = File.ReadAllText("input.dat").Split("\n\n");
+
+        // Calculate the total calories for each elf.
+        for (int i = 0; i < inputData.Length; i++)
+        {
+            // New elf.
+            Elf elf = new Elf { Number = i + 1, Cals = 0 };
+            // Calculate all this elf's calories.
+            foreach (string entry in inputData[i].Split("\n"))
+            {
+                int cals = int.Parse(entry);
+                elf.Cals += cals;
+            }
+            // Add this elf to the list.
+            elves.Add(elf);
+        }
+
+        // Sort the elf list descending by total calories.
+        elves = elves.OrderByDescending(e => e.Cals).ToList();
+
+        // Part 1.
+        Elf topElf = elves[0];
+        Console.WriteLine($"Part1: Elf {topElf.Number} has {topElf.Cals} calories");
+
+        // Part 2.
+        int total = elves.Take(3).Sum(e => e.Cals);
+        Console.WriteLine($"Part2: Top three elves have {total} calories");
+    }
+}
