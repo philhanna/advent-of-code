@@ -11,18 +11,18 @@ import (
 
 func main() {
 
-	// Read the data into the array, converting from strings to integers
-	data, err := os.ReadFile("input.dat")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Make a structure to keep track
+	// Make a structure to keep track of elf totals
 	type Elf struct {
 		number int
 		cals   int
 	}
 	elves := make([]Elf, 0)
+
+	// Read the data into the array, converting from strings to integers
+	data, err := os.ReadFile("input.dat")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// Split the data on blank lines
 	calorieData := bytes.Split(data, []byte{'\n', '\n'})
@@ -57,5 +57,5 @@ func main() {
 	for i := 0; i < 3; i++ {
 		total += elves[i].cals
 	}
-	fmt.Printf("Part2: Top 3 elves have %d calories\n", total)
+	fmt.Printf("Part2: Top three elves have %d calories\n", total)
 }
