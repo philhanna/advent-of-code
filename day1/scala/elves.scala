@@ -3,12 +3,12 @@ import scala.io.Source
 // Define a data structure for an Elf.
 case class Elf(number: Int, cals: Int)
 
-object Main extends App {
+object elves extends App {
   var elves: List[Elf] = List.empty
 
   // Read the input data into a list, with a blank line separating the entries
   // between the calorie records for each elf.
-  val inputData: Array[String] = Source.fromFile("input.dat").mkString.split("\n\n")
+  val inputData: Array[String] = Source.fromFile("../input.dat").mkString.split("\n\n")
 
   // Calculate the total calories for each elf.
   for ((entries, i) <- inputData.zipWithIndex) {
