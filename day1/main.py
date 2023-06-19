@@ -26,10 +26,10 @@ for i, entries in enumerate(inputData):
 # Sort the elf list descending by total calories.
 elves.sort(key=lambda x: x.cals, reverse=True)
 
-# Part 1.
+# Part 1
 topElf = elves[0]
 print(f"Part1: Elf {topElf.number} has {topElf.cals} calories")
 
-# Part 2.
+# Part 2
 total = sum(elf.cals for elf in elves[:3])
 print(f"Part2: Top three elves have {total} calories")
