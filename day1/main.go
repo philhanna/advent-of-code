@@ -24,16 +24,16 @@ func main() {
 	// Read the input data into a byte array, with a blank line
 	// separating the entries between the calorie records for each elf.
 	data, _ := os.ReadFile("input.dat")
-	calorieData := bytes.Split(data, []byte{'\n', '\n'})
+	inputData := bytes.Split(data, []byte{'\n', '\n'})
 
 	// Calculate the total calories for each elf
-	for i, calorieEntries := range calorieData {
+	for i, entries := range inputData {
 
 		// New elf
 		elf := Elf{number: i + 1, cals: 0}
 
 		// Calculate all this elf's calories
-		for _, entry := range bytes.Split(calorieEntries, []byte{'\n'}) {
+		for _, entry := range bytes.Split(entries, []byte{'\n'}) {
 			cals, _ := strconv.Atoi(string(entry))
 			elf.cals += cals
 		}
