@@ -1,5 +1,3 @@
-import os
-
 # Define a data structure for an Elf.
 class Elf:
     def __init__(self, number, cals):
