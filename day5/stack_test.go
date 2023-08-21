@@ -46,5 +46,5 @@ func TestPop(t *testing.T) {
 func TestStack_Push(t *testing.T) {
 	stack := NewStack("ABC")
 	stack.Push('D')
-	assert.Equal(t, "ABCD", stack.Contents)
+	assert.Equal(t, "ABCD", stack.Crates)
 }

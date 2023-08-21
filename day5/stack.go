@@ -1,12 +1,12 @@
 package main
 
 type Stack struct {
-	Contents string
+	Crates string
 }
 
-func NewStack(contents string) *Stack {
+func NewStack(crates string) *Stack {
 	ps := new(Stack)
-	ps.Contents = contents
+	ps.Crates = crates
 	return ps
 }
 
@@ -17,7 +17,7 @@ func (ps *Stack) Empty() bool {
 
 // Returns the length of the stack
 func (ps *Stack) Length() int {
-	return len(ps.Contents)
+	return len(ps.Crates)
 }
 
 // Peeks the top element without popping it
@@ -26,7 +26,7 @@ func (ps *Stack) Peek() rune {
 		panic("Stack empty")
 	}
 	n := ps.Length()
-	topCrate := rune(ps.Contents[n-1])
+	topCrate := rune(ps.Crates[n-1])
 	return topCrate
 }
 
@@ -36,12 +36,12 @@ func (ps *Stack) Pop() rune {
 		panic("Stack empty")
 	}
 	n := ps.Length()
-	topCrate := rune(ps.Contents[n-1])
-	ps.Contents = ps.Contents[:n-1]
+	topCrate := rune(ps.Crates[n-1])
+	ps.Crates = ps.Crates[:n-1]
 	return topCrate
 }
 
 // Pushes a crate
 func (ps *Stack) Push(crate rune) {
-	ps.Contents += string(crate)
+	ps.Crates += string(crate)
 }
