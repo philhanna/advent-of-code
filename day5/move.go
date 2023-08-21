@@ -10,9 +10,9 @@ import (
 // ---------------------------------------------------------------------
 
 type Move struct {
-	Count     int
-	FromStack int // The 1-based "from" stack
-	ToStack   int // The 1-based "to" stack
+	Count          int
+	FromStackIndex int // The 1-based "from" stack
+	ToStackIndex   int // The 1-based "to" stack
 }
 
 func NewMove(movestr string) *Move {
@@ -21,8 +21,8 @@ func NewMove(movestr string) *Move {
 	m := re.FindStringSubmatch(movestr)
 	if m != nil {
 		pm.Count, _ = strconv.Atoi(m[1])
-		pm.FromStack, _ = strconv.Atoi(m[2])
-		pm.ToStack, _ = strconv.Atoi(m[3])
+		pm.FromStackIndex, _ = strconv.Atoi(m[2])
+		pm.ToStackIndex, _ = strconv.Atoi(m[3])
 	}
 	return pm
 }
