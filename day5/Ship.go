@@ -86,7 +86,8 @@ func MakeStack(line string) (Stack, error) {
 		return stack, err
 	}
 
-	// Get the crate names from the input line, reversing the order so that they are a stack
+	// Get the crate names from the input line, reversing the order so
+	// that they are a stack
 	for {
 		if line == "" {
 			break
@@ -100,7 +101,7 @@ func MakeStack(line string) (Stack, error) {
 // Peel returns the last character of a string and the original string
 // without that last character
 func Peel(s string) (string, string) {
-	i := len(s)-1
+	i := len(s) - 1
 	if i < 0 {
 		return "", ""
 	}
