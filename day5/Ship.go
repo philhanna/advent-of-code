@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -40,8 +41,72 @@ type Ship struct {
 
 func LoadShip(filename string) (*Ship, error) {
 	ps := new(Ship)
+	lines, err := LoadStackLines(filename)
+	if err != nil {
+		return nil, err
+	}
+	lines = TransposeLines(lines)
+
+	// Extract the stacks that occur every 4 lines:
+	//
+	// 0: "[[[[[[[[ ",
+	// 1: "GWLJBRTD1",  <--
+	// 2: "]]]]]]]] ",
+	// 3: "         ",
+	// 4: "     [[[ ",
+	// 5: "     CWS2",  <--
+	// 6: "     ]]] ",
+	// 7: "         ",
+	// 8: "    [[[[ ",
+	// 9: "    MTZR3",  <--
+	// 10: "    ]]]] ",
+	// etc...
+	for p := 1; p < len(lines); p += 4 {
+		line := lines[p]
+		stack, err := MakeStack(line)
+		if err != nil {
+			return nil, err
+		}
+		ps.Stacks = append(ps.Stacks, stack)
+	}
 
 	return ps, nil
+}
+
+func MakeStack(line string) (Stack, error) {
+	var err error
+	var crate string
+
+	stack := Stack{}
+
+	// The last character of the string is the stack number
+	c, line := Peel(line)
+	stack.IDNumber, err = strconv.Atoi(c)
+	if err != nil {
+		return stack, err
+	}
+
+	// Get the crate names from the input line, reversing the order so that they are a stack
+	for {
+		if line == "" {
+			break
+		}
+		crate, line = Peel(line)
+		stack.Crates = append(stack.Crates, crate)
+	}
+	return stack, nil
+}
+
+// Peel returns the last character of a string and the original string
+// without that last character
+func Peel(s string) (string, string) {
+	i := len(s)-1
+	if i < 0 {
+		return "", ""
+	}
+	c := s[i:]
+	s = s[:i]
+	return c, s
 }
 
 // LoadStackLines reads from the input data file until the first blank
