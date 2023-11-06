@@ -67,21 +67,18 @@ func LoadConfigLines(filename string) ([]string, error) {
 
 // TransposeLines creates a transposition of the matrix of line characters.
 func TransposeLines(lines []string) []string {
-
 	var nRows, nCols int
 
 	nRows = len(lines)
-
-	// Make all the lines the same length
+	
+	// Make sure all the lines are the same length
 	maxlen := 0
 	for _, line := range lines {
 		if len(line) > maxlen {
 			maxlen = len(line)
 		}
 	}
-
 	nCols = maxlen
-
 	sLines := make([]string, 0)
 	for _, line := range lines {
 		for len(line) < nCols {
@@ -90,38 +87,14 @@ func TransposeLines(lines []string) []string {
 		sLines = append(sLines, line)
 	}
 
-	// Get a long list of all the characters in the lines, left to right
-	// and top to bottom.
-	chars := make([]byte, nRows * nCols)
-	for _, line := range sLines {
-		for i := 0; i < len(line); i++ {
-			c := line[i]
-			chars = append(chars, c)
-		}
-	}
-
-	// Now construct the matrix of transposed lines
-	matrix := make([][]byte, nCols)
-	for i := 0; i < nCols; i++ {
-		matrix[i] = make([]byte, nRows)
-	}
-	p := 0
-	for i := 0; i < nCols; i++ {
-		for j := 0; j < nRows; j++ {
-			c := chars[p]
-			p++
-			matrix[i][j] = c
-		}
-	}
-
-	// Convert the 2D matrix of bytes into an array of strings
+	// Create the transposed list of strings
 	out := make([]string, nCols)
-	for i := 0; i < nRows; i++ {
-		s := ""
-		for j := 0; j < nCols; j++ {
-			s += string(matrix[i][j])
+	for i := 0; i < nCols; i++ {
+		out[i] = ""
+		for j := 0; j < nRows; j++ {
+			ch := sLines[j][i:i+1]
+			out[i] += ch
 		}
-		out = append(out, s)
 	}
 	return out
 }
