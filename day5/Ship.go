@@ -64,3 +64,57 @@ func LoadConfigLines(filename string) ([]string, error) {
 	}
 	return lines, nil
 }
+
+// TransposeLines creates a transposition of the matrix of line characters.
+func TransposeLines(lines []string) []string {
+
+	// Make all the lines the same length
+	maxlen := 0
+	for _, line := range lines {
+		if len(line) > maxlen {
+			maxlen = len(line)
+		}
+	}
+	sLines := make([]string, 0)
+	for _, line := range lines {
+		for len(line) < maxlen {
+			line += " "
+		}
+		sLines = append(sLines, line)
+	}
+
+	// Get a long list of all the characters in the lines, left to right
+	// and top to bottom.
+	chars := make([]byte, 0)
+	for _, line := range sLines {
+		for i := 0; i < len(line); i++ {
+			c := line[i]
+			chars = append(chars, c)
+		}
+	}
+
+	// Now construct the matrix of transposed lines
+	matrix := make([][]byte, maxlen)
+	for i := 0; i < maxlen; i++ {
+		matrix[i] = make([]byte, len(lines))
+	}
+	p := 0
+	for i := 0; i < maxlen; i++ {
+		for j := 0; j < len(lines); j++ {
+			c := chars[p]
+			p++
+			matrix[i][j] = c
+		}
+	}
+
+	// Convert the 2D matrix of bytes into an array of strings
+	out := make([]string, maxlen)
+	for i := 0; i < len(matrix[i]); i++ {
+		s := ""
+		for j := 0; j < len(lines); j++ {
+			s += string(matrix[i][j])
+		}
+		out = append(out, s)
+	}
+	return out
+}
