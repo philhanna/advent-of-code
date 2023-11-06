@@ -110,6 +110,15 @@ func Peel(s string) (string, string) {
 	return c, s
 }
 
+// String returns a string representation of the stacks
+func (ps *Ship) String() string {
+	parts := make([]string, 0)
+	for _, stack := range ps.Stacks {
+		parts = append(parts, stack.String())
+	}
+	return strings.Join(parts, " ")
+}
+
 // LoadStackLines reads from the input data file until the first blank
 // line, returning the lines as a slice of strings.  We will transpose
 // this list with another function.
