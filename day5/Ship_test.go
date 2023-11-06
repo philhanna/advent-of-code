@@ -12,7 +12,7 @@ func TestLoadConfigLines(t *testing.T) {
 		filename string
 		want     []string
 	}{
-		{"dummy file", "testdata/dummy.txt", []string{"[T]     [Z]", "[D] [S] [R]", "1   2   3",}},
+		{"dummy file", "testdata/dummy.txt", []string{"[T]     [Z]", "[D] [S] [R]", " 1   2   3 ",}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

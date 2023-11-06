@@ -57,8 +57,7 @@ func LoadConfigLines(filename string) ([]string, error) {
 	scanner := bufio.NewScanner(fp)
 	for scanner.Scan() {
 		line := scanner.Text()
-		line = strings.TrimSpace(line)
-		if line == "" {
+		if strings.TrimSpace(line) == "" {
 			break
 		}
 		lines = append(lines, line)
