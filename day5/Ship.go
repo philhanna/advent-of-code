@@ -44,10 +44,10 @@ func LoadShip(filename string) (*Ship, error) {
 	return ps, nil
 }
 
-// LoadConfigLines reads from the configuration file until the first blank line,
-// returning the lines as a slice of strings.  We will transpose this list with
-// another function.
-func LoadConfigLines(filename string) ([]string, error) {
+// LoadStackLines reads from the input data file until the first blank
+// line, returning the lines as a slice of strings.  We will transpose
+// this list with another function.
+func LoadStackLines(filename string) ([]string, error) {
 	lines := make([]string, 0)
 	fp, err := os.Open(filename)
 	if err != nil {
@@ -70,7 +70,7 @@ func TransposeLines(lines []string) []string {
 	var nRows, nCols int
 
 	nRows = len(lines)
-	
+
 	// Make sure all the lines are the same length
 	maxlen := 0
 	for _, line := range lines {
@@ -92,7 +92,7 @@ func TransposeLines(lines []string) []string {
 	for i := 0; i < nCols; i++ {
 		out[i] = ""
 		for j := 0; j < nRows; j++ {
-			ch := sLines[j][i:i+1]
+			ch := sLines[j][i : i+1]
 			out[i] += ch
 		}
 	}
