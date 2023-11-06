@@ -18,10 +18,12 @@ type Stack struct {
 // Methods
 // ---------------------------------------------------------------------
 
+// String returns a string representation of the stack
 func (ps *Stack) String() string {
-	parts := make([]string, 0)
+	sb := strings.Builder{}
+	sb.WriteString(fmt.Sprintf("%d:", ps.IDNumber))
 	for _, crate := range ps.Crates {
-		parts = append(parts, fmt.Sprintf("[%s]", crate))
+		sb.WriteString(fmt.Sprintf(" [%s]", crate))
 	}
-	return fmt.Sprintf("%d: %s", ps.IDNumber, strings.Join(parts, " "))
+	return sb.String()
 }
