@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -73,52 +74,6 @@ func LoadShip(filename string) (*Ship, error) {
 	return ps, nil
 }
 
-func MakeStack(line string) (Stack, error) {
-	var err error
-	var crate string
-
-	stack := Stack{}
-
-	// The last character of the string is the stack number
-	c, line := Peel(line)
-	stack.IDNumber, err = strconv.Atoi(c)
-	if err != nil {
-		return stack, err
-	}
-
-	// Get the crate names from the input line, reversing the order so
-	// that they are a stack
-	for {
-		if line == "" {
-			break
-		}
-		crate, line = Peel(line)
-		stack.Crates = append(stack.Crates, crate)
-	}
-	return stack, nil
-}
-
-// Peel returns the last character of a string and the original string
-// without that last character
-func Peel(s string) (string, string) {
-	i := len(s) - 1
-	if i < 0 {
-		return "", ""
-	}
-	c := s[i:]
-	s = s[:i]
-	return c, s
-}
-
-// String returns a string representation of the stacks
-func (ps *Ship) String() string {
-	parts := make([]string, 0)
-	for _, stack := range ps.Stacks {
-		parts = append(parts, stack.String())
-	}
-	return strings.Join(parts, " ")
-}
-
 // LoadStackLines reads from the input data file until the first blank
 // line, returning the lines as a slice of strings.  We will transpose
 // this list with another function.
@@ -138,6 +93,45 @@ func LoadStackLines(filename string) ([]string, error) {
 		lines = append(lines, line)
 	}
 	return lines, nil
+}
+
+// MakeStack creates a stack structure consisting of the ID number and
+// the array of crates.
+func MakeStack(line string) (Stack, error) {
+	var err error
+	var crate string
+
+	stack := Stack{}
+
+	// The last character of the string is the stack number
+	c, line := Peel(line)
+	stack.IDNumber, err = strconv.Atoi(c)
+	if err != nil {
+		return stack, err
+	}
+
+	// Get the crate names from the input line, reversing the order so
+	// that they are a stack
+	for {
+		crate, line = Peel(line)
+		if strings.TrimSpace(crate) == "" {
+			break
+		}
+		stack.Crates = append(stack.Crates, crate)
+	}
+	return stack, nil
+}
+
+// Peel returns the last character of a string and the original string
+// without that last character
+func Peel(s string) (string, string) {
+	i := len(s) - 1
+	if i < 0 {
+		return "", ""
+	}
+	c := s[i:]
+	s = s[:i]
+	return c, s
 }
 
 // TransposeLines creates a transposition of the matrix of line characters.
@@ -172,4 +166,17 @@ func TransposeLines(lines []string) []string {
 		}
 	}
 	return out
+}
+
+// ---------------------------------------------------------------------
+// Methods
+// ---------------------------------------------------------------------
+
+// String returns a string representation of the stacks
+func (ps *Ship) String() string {
+	parts := make([]string, 0)
+	for _, stack := range ps.Stacks {
+		parts = append(parts, fmt.Sprintf("%s", &stack))
+	}
+	return strings.Join(parts, "\n")
 }
