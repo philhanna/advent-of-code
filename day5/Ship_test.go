@@ -1,12 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func TestLoadConfigLines(t *testing.T) {
+func TestLoadStackLines(t *testing.T) {
 	tests := []struct {
 		name     string
 		filename string
@@ -20,6 +21,47 @@ func TestLoadConfigLines(t *testing.T) {
 			assert.Nil(t, err)
 			assert.Equal(t, len(tt.want), len(lines))
 			assert.Equal(t, tt.want, lines)
+		})
+	}
+}
+
+func TestPeel(t *testing.T) {
+	tests := []struct {
+		name         string
+		line         string
+		expectedC    string
+		expectedLine string
+	}{
+		{"abc", "abc", "c", "ab"},
+		{"a", "a", "a", ""},
+		{"empty", "", "", ""},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c, line := Peel(tt.line)
+			assert.Equal(t, tt.expectedC, c)
+			assert.Equal(t, tt.expectedLine, line)
+		})
+	}
+}
+
+func TestString(t *testing.T) {
+	tests := []struct {
+		name     string
+		filename string
+		want     []string
+	}{
+		{"dummy file", "testdata/dummy.txt", []string{
+			"    [D]    ",
+			"[N] [C]    ",
+			"[Z] [M] [P]",
+			" 1   2   3 "}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			ps, err := LoadShip(tt.filename)
+			assert.Nil(t, err)
+			fmt.Printf("%s\n", ps)
 		})
 	}
 }
@@ -87,26 +129,6 @@ func TestTransposeLines(t *testing.T) {
 			expected := tt.want
 			actual := TransposeLines(input)
 			assert.Equal(t, expected, actual)
-		})
-	}
-}
-
-func TestPeel(t *testing.T) {
-	tests := []struct {
-		name         string
-		line         string
-		expectedC    string
-		expectedLine string
-	}{
-		{"abc", "abc", "c", "ab"},
-		{"a", "a", "a", ""},
-		{"empty", "", "", ""},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			c, line := Peel(tt.line)
-			assert.Equal(t, tt.expectedC, c)
-			assert.Equal(t, tt.expectedLine, line)
 		})
 	}
 }
