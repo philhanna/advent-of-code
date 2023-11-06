@@ -49,18 +49,21 @@ func TestString(t *testing.T) {
 	tests := []struct {
 		name     string
 		filename string
-		want     []string
+		want     string
 	}{
-		{"dummy file", "testdata/dummy.txt", []string{
-			"    [D]    ",
-			"[N] [C]    ",
-			"[Z] [M] [P]",
-			" 1   2   3 "}},
+		{
+			"dummy file", "testdata/dummy.txt", 
+				"1: [Z] [N]\n" +
+				"2: [M] [C] [D]\n" +
+				"3: [P]",
+			},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			ps, err := LoadShip(tt.filename)
 			assert.Nil(t, err)
+			s := ps.String()
+			assert.Equal(t, tt.want, s)
 			fmt.Printf("%s\n", ps)
 		})
 	}
