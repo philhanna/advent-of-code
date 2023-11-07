@@ -13,7 +13,14 @@ func TestLoadStackLines(t *testing.T) {
 		filename string
 		want     []string
 	}{
-		{"dummy file", "testdata/dummy.txt", []string{"[T]     [Z]", "[D] [S] [R]", " 1   2   3 "}},
+		{
+			"dummy file", "testdata/dummy.txt", []string{
+				"    [D]    ",
+				"[N] [C]    ",
+				"[Z] [M] [P]",
+				" 1   2   3 ",
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -52,11 +59,11 @@ func TestString(t *testing.T) {
 		want     string
 	}{
 		{
-			"dummy file", "testdata/dummy.txt", 
-				"1: [Z] [N]\n" +
+			"dummy file", "testdata/dummy.txt",
+			"1: [Z] [N]\n" +
 				"2: [M] [C] [D]\n" +
 				"3: [P]",
-			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
