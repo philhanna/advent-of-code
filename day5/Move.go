@@ -20,11 +20,10 @@ type Move struct {
 // Functions
 // ---------------------------------------------------------------------
 
-// Parse creates a Move structure from an input line in the format:
+// ParseMove creates a Move structure from an input line in the format:
 //
-//   move nn from n to n
-//
-func Parse(line string) (Move, error) {
+//	move nn from n to n
+func ParseMove(line string) (Move, error) {
 	re := regexp.MustCompile(`^\s*move (\d+) from (\d+) to (\d+)`)
 	groups := re.FindStringSubmatch(line)
 	if groups == nil {
@@ -35,8 +34,19 @@ func Parse(line string) (Move, error) {
 	fromStack, _ := strconv.Atoi(groups[2])
 	toStack, _ := strconv.Atoi(groups[3])
 	return Move{
-		Count: count,
+		Count:     count,
 		FromStack: fromStack,
-		ToStack: toStack,
+		ToStack:   toStack,
 	}, nil
+}
+
+// ---------------------------------------------------------------------
+// Methods
+// ---------------------------------------------------------------------
+
+// Equal returns true if the specified Move object is equal to this one.
+func (this *Move) Equal(that Move) bool {
+	return this.Count == that.Count &&
+		this.FromStack == that.FromStack &&
+		this.ToStack == that.ToStack
 }
