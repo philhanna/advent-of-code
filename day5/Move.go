@@ -1,9 +1,12 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"regexp"
 	"strconv"
+	"strings"
 )
 
 // ---------------------------------------------------------------------
@@ -17,14 +20,52 @@ type Move struct {
 }
 
 // ---------------------------------------------------------------------
+// Constants and variables
+// ---------------------------------------------------------------------
+
+var re = regexp.MustCompile(`^\s*move (\d+) from (\d+) to (\d+)`)
+
+// ---------------------------------------------------------------------
 // Functions
 // ---------------------------------------------------------------------
+
+// LoadMoves creates a list of moves from the input data file.
+// The moves are located after the first empty line.
+func LoadMoves(filename string) ([]Move, error) {
+	moves := make([]Move, 0)
+	fp, err := os.Open(filename)
+	if err != nil {
+		return nil, err
+	}
+	defer fp.Close()
+
+	state := 0
+	scanner := bufio.NewScanner(fp)
+	for scanner.Scan() {
+		line := scanner.Text()
+		switch state {
+		case 0:
+			// Skip stack configuration section and look for first blank line
+			if strings.TrimSpace(line) == "" {
+				state = 1
+			}
+		case 1:
+			fallthrough
+		default:
+			move, err := ParseMove(line)
+			if err != nil {
+				return nil, err
+			}
+			moves = append(moves, move)
+		}
+	}
+	return moves, nil
+}
 
 // ParseMove creates a Move structure from an input line in the format:
 //
 //	move nn from n to n
 func ParseMove(line string) (Move, error) {
-	re := regexp.MustCompile(`^\s*move (\d+) from (\d+) to (\d+)`)
 	groups := re.FindStringSubmatch(line)
 	if groups == nil {
 		err := fmt.Errorf("Invalid format for move input: %s", line)
@@ -49,4 +90,14 @@ func (this *Move) Equal(that Move) bool {
 	return this.Count == that.Count &&
 		this.FromStack == that.FromStack &&
 		this.ToStack == that.ToStack
+}
+
+// String returns a string representation of the move
+func (p *Move) String() string {
+	parts := []string{
+		fmt.Sprintf("%d", p.Count),
+		fmt.Sprintf("%d", p.FromStack),
+		fmt.Sprintf("%d", p.ToStack),
+	}
+	return strings.Join(parts, ",")
 }
