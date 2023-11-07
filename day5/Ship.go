@@ -41,7 +41,11 @@ type Ship struct {
 // move 1 from 3 to 4
 
 func LoadShip(filename string) (*Ship, error) {
+
+	// Create a new Ship structure
 	ps := new(Ship)
+
+	// Load the starting configuration from the specified file
 	lines, err := LoadStackLines(filename)
 	if err != nil {
 		return nil, err
@@ -71,6 +75,7 @@ func LoadShip(filename string) (*Ship, error) {
 		ps.Stacks = append(ps.Stacks, stack)
 	}
 
+	// Done
 	return ps, nil
 }
 
