@@ -22,17 +22,21 @@ different. In this case, your subroutine should report the value 7,
 because the first start-of-packet marker is complete after 7 characters
 have been processed.
 '''
-FILENAME = "input.txt"
-with open(FILENAME) as fp:
-    data = fp.read()
+
+def main():
+    FILENAME = "input.txt"
+    with open(FILENAME) as fp:
+        data = fp.read()
+    find_marker(data)
 
 def find_marker(s: str) -> int:
     ''' Find the position (zero-based) at which the previous four
     characters are all distinct '''
     p = 0
     for ch in s:
+        if p >= 4:
+            prev = s[p-4:p-1]
+            if nodups(prev):
+                return p+1
         p += 1
-        if p <= 4:
-            continue
-        print(f"{p=}, {ch=}")
-        break
+    return 0
