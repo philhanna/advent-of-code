@@ -34,21 +34,31 @@ func TestLoadStackLines(t *testing.T) {
 
 func TestShip_MakeMove(t *testing.T) {
 	tests := []struct {
-		name     string
-		filename string
-		move     Move
+		name         string
+		filename     string
+		move         Move
+		newFromStack []string
+		newToStack   []string
 	}{
-		{"single move", "testdata/moves.txt", Move{1, 3, 5}},
+		{
+			"single move",
+			"testdata/moves.txt",
+			Move{1, 3, 5},
+			[]string{"R", "Z", "T"},
+			[]string{"G", "P", "T", "L", "D", "Z", "M"},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			ps, err := LoadShip(tt.filename)
 			assert.Nil(t, err)
-			fmt.Printf("\nBEFORE:\n")
-			fmt.Printf("%s\n", ps)
+			// fmt.Printf("\nBEFORE:\n")
+			// fmt.Printf("%s\n", ps)
 			ps.MakeMove(tt.move)
-			fmt.Printf("\nAFTER:\n")
-			fmt.Printf("%s\n", ps)
+			// fmt.Printf("\nAFTER:\n")
+			// fmt.Printf("%s\n", ps)
+			assert.Equal(t, ps.Stacks[tt.move.FromStackNumber].Crates, tt.newFromStack)
+			assert.Equal(t, ps.Stacks[tt.move.ToStackNumber].Crates, tt.newToStack)
 		})
 	}
 }

@@ -15,7 +15,7 @@ import (
 
 // Ship is a collection of the stacks we are working with
 type Ship struct {
-	Stacks map[int]Stack
+	Stacks map[int]*Stack
 }
 
 // ---------------------------------------------------------------------
@@ -25,7 +25,7 @@ type Ship struct {
 // NewShip creates a new ship with empty stacks
 func NewShip() *Ship {
 	p := new(Ship)
-	p.Stacks = make(map[int]Stack)
+	p.Stacks = make(map[int]*Stack)
 	return p
 }
 
@@ -114,17 +114,17 @@ func LoadStackLines(filename string) ([]string, error) {
 
 // MakeStack creates a stack structure consisting of the ID number and
 // the array of crates.
-func MakeStack(line string) (Stack, error) {
+func MakeStack(line string) (*Stack, error) {
 	var err error
 	var crate string
 
-	stack := Stack{}
+	pStack := new(Stack)
 
 	// The last character of the string is the stack number
 	c, line := Peel(line)
-	stack.IDNumber, err = strconv.Atoi(c)
+	pStack.IDNumber, err = strconv.Atoi(c)
 	if err != nil {
-		return stack, err
+		return nil, err
 	}
 
 	// Get the crate names from the input line, reversing the order so
@@ -134,9 +134,11 @@ func MakeStack(line string) (Stack, error) {
 		if strings.TrimSpace(crate) == "" {
 			break
 		}
-		stack.Crates = append(stack.Crates, crate)
+		pStack.Crates = append(pStack.Crates, crate)
 	}
-	return stack, nil
+
+	// All OK
+	return pStack, nil
 }
 
 // Peel returns the last character of a string and the original string
@@ -193,22 +195,23 @@ func TransposeLines(lines []string) []string {
 func (ps *Ship) MakeMove(move Move) error {
 	var err error
 
-	fromStack, ok := ps.Stacks[move.FromStack]
+	pFromStack, ok := ps.Stacks[move.FromStackNumber]
 	if !ok {
-		return fmt.Errorf("Invalid fromStack %d", move.FromStack)
+		return fmt.Errorf("Invalid fromStack %d", move.FromStackNumber)
 	}
-	toStack, ok := ps.Stacks[move.ToStack]
+	pToStack, ok := ps.Stacks[move.ToStackNumber]
 	if !ok {
-		return fmt.Errorf("Invalid toStack %d", move.ToStack)
+		return fmt.Errorf("Invalid toStack %d", move.ToStackNumber)
 	}
 
 	for count := 0; count < move.Count; count++ {
-		if len(fromStack.Crates) < 1 {
-			return fmt.Errorf("From stack %d is empty", move.FromStack)
+		if len(pFromStack.Crates) < 1 {
+			return fmt.Errorf("From stack %d is empty", move.FromStackNumber)
 		}
-		crate := fromStack.Crates[len(fromStack.Crates)-1]
-		fromStack.Crates = fromStack.Crates[:len(fromStack.Crates)-1]
-		toStack.Crates = append(toStack.Crates, crate)
+		fromCratesCount := len(pFromStack.Crates)
+		crate := pFromStack.Crates[fromCratesCount-1]
+		pFromStack.Crates = pFromStack.Crates[:fromCratesCount-1]
+		pToStack.Crates = append(pToStack.Crates, crate)
 	}
 
 	return err
@@ -218,13 +221,13 @@ func (ps *Ship) MakeMove(move Move) error {
 func (ps *Ship) String() string {
 	parts := make([]string, 0)
 	keys := make([]int, 0)
-	for _, stack := range ps.Stacks {
-		keys = append(keys, stack.IDNumber)
+	for _, pStack := range ps.Stacks {
+		keys = append(keys, pStack.IDNumber)
 	}
 	sort.Ints(keys)
 	for _, key := range keys {
 		stack := ps.Stacks[key]
-		parts = append(parts, fmt.Sprintf("%s", &stack))
+		parts = append(parts, fmt.Sprintf("%s", stack))
 	}
 	return strings.Join(parts, "\n")
 }

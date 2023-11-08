@@ -14,9 +14,9 @@ import (
 // ---------------------------------------------------------------------
 
 type Move struct {
-	Count     int
-	FromStack int
-	ToStack   int
+	Count           int
+	FromStackNumber int
+	ToStackNumber   int
 }
 
 // ---------------------------------------------------------------------
@@ -75,9 +75,9 @@ func ParseMove(line string) (Move, error) {
 	fromStack, _ := strconv.Atoi(groups[2])
 	toStack, _ := strconv.Atoi(groups[3])
 	return Move{
-		Count:     count,
-		FromStack: fromStack,
-		ToStack:   toStack,
+		Count:           count,
+		FromStackNumber: fromStack,
+		ToStackNumber:   toStack,
 	}, nil
 }
 
@@ -88,16 +88,16 @@ func ParseMove(line string) (Move, error) {
 // Equal returns true if the specified Move object is equal to this one.
 func (this *Move) Equal(that Move) bool {
 	return this.Count == that.Count &&
-		this.FromStack == that.FromStack &&
-		this.ToStack == that.ToStack
+		this.FromStackNumber == that.FromStackNumber &&
+		this.ToStackNumber == that.ToStackNumber
 }
 
 // String returns a string representation of the move
 func (p *Move) String() string {
 	parts := []string{
 		fmt.Sprintf("%d", p.Count),
-		fmt.Sprintf("%d", p.FromStack),
-		fmt.Sprintf("%d", p.ToStack),
+		fmt.Sprintf("%d", p.FromStackNumber),
+		fmt.Sprintf("%d", p.ToStackNumber),
 	}
 	return strings.Join(parts, ",")
 }
