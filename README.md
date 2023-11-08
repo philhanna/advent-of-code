@@ -1,6 +1,6 @@
 # advent
 
-**Source:** https://code.jsoftware.com/ShareMyScreen
+**Source:** [https://code.jsoftware.com/ShareMyScreen](https://code.jsoftware.com/wiki/ShareMyScreen)
 
 01. [Calorie Counting](https://code.jsoftware.com/wiki/ShareMyScreen/AdventOfCode/2022/01/CalorieCounting)
 02. [Rock Paper Scissors](https://code.jsoftware.com/wiki/ShareMyScreen/AdventOfCode/2022/02/RockPaperScissors)
