@@ -204,6 +204,7 @@ func (ps *Ship) MakeMove(move Move) error {
 		return fmt.Errorf("Invalid toStack %d", move.ToStackNumber)
 	}
 
+	tempStack := make([]string, 0)
 	for count := 0; count < move.Count; count++ {
 		if len(pFromStack.Crates) < 1 {
 			return fmt.Errorf("From stack %d is empty", move.FromStackNumber)
@@ -211,6 +212,12 @@ func (ps *Ship) MakeMove(move Move) error {
 		fromCratesCount := len(pFromStack.Crates)
 		crate := pFromStack.Crates[fromCratesCount-1]
 		pFromStack.Crates = pFromStack.Crates[:fromCratesCount-1]
+		tempStack = append(tempStack, crate)
+	}
+	for count := 0; count < move.Count; count++ {
+		n := len(tempStack)
+		crate := tempStack[n-1]
+		tempStack = tempStack[:n-1]
 		pToStack.Crates = append(pToStack.Crates, crate)
 	}
 

@@ -41,11 +41,11 @@ func TestShip_MakeMove(t *testing.T) {
 		newToStack   []string
 	}{
 		{
-			"single move",
+			"triple move",
 			"testdata/moves.txt",
-			Move{1, 3, 5},
-			[]string{"R", "Z", "T"},
-			[]string{"G", "P", "T", "L", "D", "Z", "M"},
+			Move{3, 3, 5},
+			[]string{"R"},
+			[]string{"G", "P", "T", "L", "D", "Z", "Z", "T", "M"},
 		},
 	}
 	for _, tt := range tests {
