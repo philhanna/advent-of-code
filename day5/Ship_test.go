@@ -32,6 +32,27 @@ func TestLoadStackLines(t *testing.T) {
 	}
 }
 
+func TestShip_MakeMove(t *testing.T) {
+	tests := []struct {
+		name     string
+		filename string
+		move     Move
+	}{
+		{"single move", "testdata/moves.txt", Move{1, 3, 5}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			ps, err := LoadShip(tt.filename)
+			assert.Nil(t, err)
+			fmt.Printf("\nBEFORE:\n")
+			fmt.Printf("%s\n", ps)
+			ps.MakeMove(tt.move)
+			fmt.Printf("\nAFTER:\n")
+			fmt.Printf("%s\n", ps)
+		})
+	}
+}
+
 func TestPeel(t *testing.T) {
 	tests := []struct {
 		name         string

@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -14,7 +15,18 @@ import (
 
 // Ship is a collection of the stacks we are working with
 type Ship struct {
-	Stacks []Stack
+	Stacks map[int]Stack
+}
+
+// ---------------------------------------------------------------------
+// Constructor
+// ---------------------------------------------------------------------
+
+// NewShip creates a new ship with empty stacks
+func NewShip() *Ship {
+	p := new(Ship)
+	p.Stacks = make(map[int]Stack)
+	return p
 }
 
 // ---------------------------------------------------------------------
@@ -43,7 +55,7 @@ type Ship struct {
 func LoadShip(filename string) (*Ship, error) {
 
 	// Create a new Ship structure
-	ps := new(Ship)
+	ps := NewShip()
 
 	// Load the starting configuration from the specified file
 	lines, err := LoadStackLines(filename)
@@ -72,7 +84,7 @@ func LoadShip(filename string) (*Ship, error) {
 		if err != nil {
 			return nil, err
 		}
-		ps.Stacks = append(ps.Stacks, stack)
+		ps.Stacks[stack.IDNumber] = stack
 	}
 
 	// Done
@@ -177,10 +189,41 @@ func TransposeLines(lines []string) []string {
 // Methods
 // ---------------------------------------------------------------------
 
+// MakeMove applies a move to a from and to stack on this ship
+func (ps *Ship) MakeMove(move Move) error {
+	var err error
+
+	fromStack, ok := ps.Stacks[move.FromStack]
+	if !ok {
+		return fmt.Errorf("Invalid fromStack %d", move.FromStack)
+	}
+	toStack, ok := ps.Stacks[move.ToStack]
+	if !ok {
+		return fmt.Errorf("Invalid toStack %d", move.ToStack)
+	}
+
+	for count := 0; count < move.Count; count++ {
+		if len(fromStack.Crates) < 1 {
+			return fmt.Errorf("From stack %d is empty", move.FromStack)
+		}
+		crate := fromStack.Crates[len(fromStack.Crates)-1]
+		fromStack.Crates = fromStack.Crates[:len(fromStack.Crates)-1]
+		toStack.Crates = append(toStack.Crates, crate)
+	}
+
+	return err
+}
+
 // String returns a string representation of the stacks
 func (ps *Ship) String() string {
 	parts := make([]string, 0)
+	keys := make([]int, 0)
 	for _, stack := range ps.Stacks {
+		keys = append(keys, stack.IDNumber)
+	}
+	sort.Ints(keys)
+	for _, key := range keys {
+		stack := ps.Stacks[key]
 		parts = append(parts, fmt.Sprintf("%s", &stack))
 	}
 	return strings.Join(parts, "\n")
