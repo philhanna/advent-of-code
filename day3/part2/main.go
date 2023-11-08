@@ -37,9 +37,9 @@ func intersection(set1, set2 []string) []string {
 func priority(s string) int {
 	switch {
 	case s >= "a" && s <= "z":
-		return 1 + int(s[0] - 'a')
+		return 1 + int(s[0]-'a')
 	case s >= "A" && s <= "Z":
-		return 27 + int(s[0] - 'A')
+		return 27 + int(s[0]-'A')
 	}
 	return 0
 }
@@ -48,7 +48,7 @@ func main() {
 	inputBytes, _ := os.ReadFile("../testdata/input")
 	data := strings.Split(string(inputBytes), "\n")
 	sumOfPriorities := 0
-	for i := 0;; i += 3 {
+	for i := 0; ; i += 3 {
 		if i+2 > len(data) {
 			break
 		}

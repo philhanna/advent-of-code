@@ -20,9 +20,9 @@ func main() {
 				var priority int
 				switch {
 				case c >= 'a' && c <= 'z':
-					priority = int(c - 'a') + 1
+					priority = int(c-'a') + 1
 				case c >= 'A' && c <= 'Z':
-					priority = int(c - 'A') + 27
+					priority = int(c-'A') + 27
 				}
 				sumOfPriorities += priority
 			}

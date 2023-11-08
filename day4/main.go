@@ -16,7 +16,7 @@ func main() {
 		p := strings.Index(pair, "-")
 		n1, _ := strconv.Atoi(pair[:p])
 		n2, _ := strconv.Atoi(pair[p+1:])
-		return n1, n2			
+		return n1, n2
 	}
 
 	contains := func(range1, range2 string) bool {

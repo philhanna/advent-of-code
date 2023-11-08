@@ -217,17 +217,36 @@ func (ps *Ship) MakeMove(move Move) error {
 	return err
 }
 
-// String returns a string representation of the stacks
-func (ps *Ship) String() string {
-	parts := make([]string, 0)
+// SortedStackNumbers returns a slice of the stack numbers sorted in ascending order
+func (ps *Ship) SortedStackNumbers() []int {
 	keys := make([]int, 0)
 	for _, pStack := range ps.Stacks {
 		keys = append(keys, pStack.IDNumber)
 	}
 	sort.Ints(keys)
+	return keys
+}
+
+// StackTops returns a string containing the top crate on each stack
+func (ps *Ship) StackTops() string {
+	sb := strings.Builder{}
+	keys := ps.SortedStackNumbers()
 	for _, key := range keys {
-		stack := ps.Stacks[key]
-		parts = append(parts, fmt.Sprintf("%s", stack))
+		pStack := ps.Stacks[key]
+		n := len(pStack.Crates)
+		crate := pStack.Crates[n-1]
+		sb.WriteString(crate)
+	}
+	return sb.String()
+}
+
+// String returns a string representation of the stacks
+func (ps *Ship) String() string {
+	parts := make([]string, 0)
+	keys := ps.SortedStackNumbers()
+	for _, key := range keys {
+		pStack := ps.Stacks[key]
+		parts = append(parts, fmt.Sprintf("%s", pStack))
 	}
 	return strings.Join(parts, "\n")
 }

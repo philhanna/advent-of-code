@@ -1,6 +1,5 @@
 package main
 
-
 import (
 	"fmt"
 	"os"
@@ -17,7 +16,7 @@ func main() {
 		p := strings.Index(pair, "-")
 		n1, _ := strconv.Atoi(pair[:p])
 		n2, _ := strconv.Atoi(pair[p+1:])
-		return n1, n2			
+		return n1, n2
 	}
 
 	overlaps := func(range1, range2 string) bool {
@@ -33,7 +32,7 @@ func main() {
 		for _, v := range common {
 			if v > 1 {
 				return true
-			} 
+			}
 		}
 		return false
 	}

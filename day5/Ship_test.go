@@ -83,6 +83,14 @@ func TestPeel(t *testing.T) {
 	}
 }
 
+func TestShip_StackTops(t *testing.T) {
+	pShip, err := LoadShip("testdata/moves.txt")
+	assert.Nil(t, err)
+	actual := pShip.StackTops()
+	expected := "GCMVZDRMV"
+	assert.Equal(t, expected, actual)
+}
+
 func TestString(t *testing.T) {
 	tests := []struct {
 		name     string
