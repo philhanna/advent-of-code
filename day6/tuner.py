@@ -24,10 +24,12 @@ have been processed.
 '''
 
 def main():
+    ''' Mainline '''
     FILENAME = "input.txt"
     with open(FILENAME) as fp:
         data = fp.read()
-    find_marker(data)
+    p, prev = find_marker(data)
+    print(f"{p=}, {prev=}")
 
 def find_marker(s: str) -> int:
     ''' Find the position (zero-based) at which the previous four
@@ -35,8 +37,21 @@ def find_marker(s: str) -> int:
     p = 0
     for ch in s:
         if p >= 4:
-            prev = s[p-4:p-1]
-            if nodups(prev):
-                return p+1
+            prev = s[p-4:p]
+            if not dups(prev):
+                return p, prev
         p += 1
     return 0
+
+def dups(s: str) -> bool:
+    ''' Return True if there are duplicate characters in this string '''
+    for i in range(4):
+        ci = s[i]
+        for j in range(i+1, 4):
+            cj = s[j]
+            if ci == cj:
+                return True
+    return False
+
+if __name__ == '__main__':
+    main()
