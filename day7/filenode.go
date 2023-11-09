@@ -1,7 +1,5 @@
 package main
 
-import "strings"
-
 // ---------------------------------------------------------------------
 // Type Definitions
 // ---------------------------------------------------------------------
@@ -15,31 +13,20 @@ type FileNode struct {
 }
 
 // ---------------------------------------------------------------------
-// Functions
+// Methods
 // ---------------------------------------------------------------------
 
+// Name returns the file name
 func (pNode *FileNode) Name() string {
 	return pNode.name
 }
 
+// Size returns the file size
 func (pNode *FileNode) Size() int {
 	return pNode.size
 }
 
+// Children returns nil (only directories have children)
 func (pNode *FileNode) Children() []*AbstractNode {
 	return nil
-}
-
-func (p *FileNode) String() string {
-	sb := strings.Builder{}
-	if p.parent == nil {
-		sb.WriteString("/")
-	} else {
-		if p.parent.parent != nil {
-			sb.WriteString(p.parent.String())
-		}
-		sb.WriteString("/")
-		sb.WriteString(p.Name())
-	}
-	return sb.String()
 }

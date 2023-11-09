@@ -8,9 +8,15 @@ import (
 
 func TestDirNode_String(t *testing.T) {
 	root := NewRootNode()
-	assert.Equal(t, "/", root.String())
+	
+	rootString := root.String()
+	assert.Equal(t, "/", rootString)
+
 	a := root.AddDirectory("a")
-	assert.Equal(t, "/a", a.String())
+	aString := a.String()
+	assert.Equal(t, "/a", aString)
+
 	e := a.AddDirectory("e")
-	assert.Equal(t, "/a/e", e.String())
+	eString := e.String()
+	assert.Equal(t, "/a/e", eString)
 }
