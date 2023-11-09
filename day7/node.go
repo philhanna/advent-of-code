@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	// "strings"
+	"strings"
 )
 
 // ---------------------------------------------------------------------
@@ -118,27 +118,47 @@ func main() {
 	a := NewDirNode(root, "a")
 	e := NewDirNode(a, "e")
 
-	file := NewFileNode(a, "bfile.txt", 123)
+	// file := NewFileNode(a, "bfile.txt", 123)
 
+	fmt.Printf("root: %s\n", root)
+	fmt.Printf("a   : %s\n", a)
+	fmt.Printf("e   : %s\n", e)
+	/*
 	fmt.Printf("root base=%v,name=%s,parent=%v\n", root.Node, root.Name(), root.parent)
 	fmt.Printf("a    base=%v,name=%s,parent=%v\n", a.Node, a.Name(), a.parent)
 	fmt.Printf("e    base=%v,name=%s,parent=%v\n", e.Node, e.Name(), e.parent)
 	fmt.Println("file =", file)
+	*/
 }
 
-/*
-func (p *Node) String() string {
+func (p *DirNode) String() string {
+	parts := make([]string, 0)
+	parts = append(parts, fmt.Sprintf("name=%s", p.Name()))
+	parts = append(parts, fmt.Sprintf("path=%s", p.FullPath()))
+	if p.parent != nil {
+		s := p.parent.FullPath()
+		parts = append(parts, fmt.Sprintf("parent=%s", s))
+	}
+	kids := make([]string, 0)
+	for _, child := range(p.children) {
+		kids = append(kids, child.Name())
+	}
+	kidString := "children=[" + strings.Join(kids, ",") + "]"
+	parts = append(parts, kidString)
+	result := strings.Join(parts, " ")
+	return result
+}
+
+func (p *DirNode) FullPath() string {
 	sb := strings.Builder{}
-	if p.Parent() == nil {
+	if p.parent == nil {
 		sb.WriteString("/")
 	} else {
-		if p.Parent().Parent() != nil {
-			sb.WriteString(p.Parent().String())
+		if p.parent.parent != nil {
+			sb.WriteString(p.parent.FullPath())
 		}
 		sb.WriteString("/")
 		sb.WriteString(p.Name())
 	}
 	return sb.String()
 }
-
-*/
