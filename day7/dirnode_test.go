@@ -92,15 +92,17 @@ func TestDirNode_ChildrenAsStrings(t *testing.T) {
 
 func TestDirNode_Size(t *testing.T) {
 
-	_, _, e, d := GetTestData()
+	root, a, e, d := GetTestData()
 
 	tests := []struct {
 		name     string
 		dirNode  *DirNode
 		expected int
 	}{
+		{"/", root, 48381165},
+		{"/a", a, 94853},
 		{"/a/e", e, 584},
-		{"/d", d, 4060174 + 8033020 + 5626152 + 7214296},
+		{"/d", d, 24933642},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
