@@ -3,18 +3,31 @@ package main
 import (
 	"bufio"
 	"os"
-	"strings"
 )
 
+// ---------------------------------------------------------------------
+// Type Definitions
+// ---------------------------------------------------------------------
+type InputContext struct {
+	root *DirNode // Root directory
+	cwd  *DirNode // Current working directory
+}
+
+// ---------------------------------------------------------------------
+// Constants and variables
+// ---------------------------------------------------------------------
+
 // HandleInput creates a root node, then reads the input and applies it
-// to that node.
-func HandleInput(filename string) (*DirNode, error) {
+// to that node
+func HandleInput(filename string) (*InputContext, error) {
+
+	ctx := new(InputContext)
 
 	// Create the root node
-	root := NewDirNode(nil, "/")
+	ctx.root = NewDirNode(nil, "/")
 
 	// Get a pointer to the current working directory
-	cwd := root
+	ctx.cwd = ctx.root
 
 	// Load the input and apply it one line at a time
 	fp, err := os.Open(filename)
@@ -26,21 +39,18 @@ func HandleInput(filename string) (*DirNode, error) {
 	scanner := bufio.NewScanner(fp)
 	for scanner.Scan() {
 		line := scanner.Text()
-		switch {
-		case strings.HasPrefix(line, "$ "):
-			line = line[2:]
-			switch {
-			case strings.HasPrefix(line, "cd "):
-				dirName := line[3:]
-				if dirName == "/" {
-					cwd = root
-				} else {
-					cwd = NewDirNode(cwd, dirName)
-				}
-			}
+		err := ctx.HandleLine(line)
+		if err != nil {
+			return nil, err
 		}
 	}
 
 	// Done. Everything OK.
-	return root, nil
+	return ctx, nil
+}
+
+// HandleLine handles one line of input in the context of the input
+// handler
+func (ctx *InputContext) HandleLine(line string) error {
+	return nil
 }
