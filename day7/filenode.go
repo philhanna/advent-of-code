@@ -4,8 +4,8 @@ import "strings"
 
 type FileNode struct {
 	parent *DirNode
-	name string
-	size int
+	name   string
+	size   int
 }
 
 func NewFileNode(parent *DirNode, name string, size int) *FileNode {
@@ -34,12 +34,14 @@ func (pNode *FileNode) Children() []*Node {
 
 func (p *FileNode) String() string {
 	sb := strings.Builder{}
-	if p.parent != nil {
+	if p.parent == nil {
+		sb.WriteString("/")
+	} else {
 		if p.parent.parent != nil {
-			sb.WriteString(p.parent.Name())
+			sb.WriteString(p.parent.String())
 		}
 		sb.WriteString("/")
+		sb.WriteString(p.Name())
 	}
-	sb.WriteString(p.Name())
 	return sb.String()
 }
