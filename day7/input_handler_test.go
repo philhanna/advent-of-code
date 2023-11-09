@@ -53,8 +53,8 @@ func TestInputContext_HandleCDParent(t *testing.T) {
 
 func TestInputContext_HandleFileSizeAndName(t *testing.T) {
 	tests := []struct {
-		name string
-		cmds []string
+		name     string
+		cmds     []string
 		expected []string
 	}{
 		{"subfile i",
