@@ -19,7 +19,7 @@ type InputContext struct {
 // ---------------------------------------------------------------------
 
 // ---------------------------------------------------------------------
-// Functions
+// Constructor
 // ---------------------------------------------------------------------
 
 // NewContext creates a new input handler context with an initialized
@@ -31,17 +31,18 @@ func NewContext() *InputContext {
 	return context
 }
 
-// HandleInput creates a root node, then reads the input and applies it
-// to that node
-func HandleInput(filename string) (*InputContext, error) {
+// ---------------------------------------------------------------------
+// Methods
+// ---------------------------------------------------------------------
 
-	// Create the input context
-	context := NewContext()
+// HandleInput reads input from the specified file and applies it to the
+// context
+func (context *InputContext) HandleInput(filename string) error {
 
 	// Load the input
 	fp, err := os.Open(filename)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	defer fp.Close()
 
@@ -51,12 +52,12 @@ func HandleInput(filename string) (*InputContext, error) {
 		line := scanner.Text()
 		err := context.HandleLine(line)
 		if err != nil {
-			return nil, err
+			return err
 		}
 	}
 
-	// Done
-	return context, nil
+	// Done. Indicate that there was no error.
+	return nil
 }
 
 // HandleLine handles one line of input in the context of the input

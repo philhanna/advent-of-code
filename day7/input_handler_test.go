@@ -9,7 +9,8 @@ import (
 const SAMPLE_INPUT = "sampleinput.txt"
 
 func TestHandleInput(t *testing.T) {
-	context, err := HandleInput(SAMPLE_INPUT)
+	context := NewContext()
+	err := context.HandleInput(SAMPLE_INPUT)
 	assert.Nil(t, err)
 	assert.NotNil(t, context)
 	assert.NotNil(t, context.root)
