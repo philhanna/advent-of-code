@@ -75,3 +75,8 @@ func (context *InputContext) HandleLS(line string) error {
 	// Nothing to do. Return no error
 	return nil
 }
+
+// HandleCD handles the cd command
+func (context *InputContext) HandleCD(line string) error {
+	return nil
+}
