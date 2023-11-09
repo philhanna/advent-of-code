@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -18,6 +20,10 @@ type InputContext struct {
 // ---------------------------------------------------------------------
 // Constants and variables
 // ---------------------------------------------------------------------
+
+var (
+	re_size_and_name = regexp.MustCompile(`^(\d+) (\S+)`)
+)
 
 // ---------------------------------------------------------------------
 // Constructor
@@ -69,6 +75,8 @@ func (context *InputContext) HandleLine(line string) error {
 		context.HandleLS(line)
 	case strings.HasPrefix(line, "$ cd"):
 		context.HandleCD(line)
+	case re_size_and_name.MatchString(line):
+		context.HandleFileSizeAndName(line)
 	}
 	return nil
 }
@@ -110,4 +118,21 @@ func (context *InputContext) HandleCD(line string) error {
 		}
 		return nil
 	}
+}
+
+func (context *InputContext) HandleFileSizeAndName(line string) error {
+	groups := re_size_and_name.FindStringSubmatch(line)
+	if groups == nil {
+		return fmt.Errorf("%q is not a file size and name line", line)
+	}
+	fileSize, _ := strconv.Atoi(groups[1])
+	fileName := groups[2]
+	child := context.cwd.LookupChild(fileName)
+	if child != nil {
+		// The file by this name is already a child of the cwd
+		return nil
+	}
+	// Add a new file by this name to the cwd
+	NewFileNode(context.cwd, fileName, fileSize)
+	return nil
 }
