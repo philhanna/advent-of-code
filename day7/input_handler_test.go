@@ -24,8 +24,11 @@ func TestInputContext_HandleLS(t *testing.T) {
 }
 
 func TestInputContext_HandleCD(t *testing.T) {
-	var err error
-	var context *InputContext
+	
+	var (
+		err error
+		context *InputContext
+	)
 
 	context = NewContext()
 	err = context.HandleCD("$ cd a")

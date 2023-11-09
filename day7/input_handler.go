@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 	"strings"
 )
@@ -78,5 +79,26 @@ func (context *InputContext) HandleLS(line string) error {
 
 // HandleCD handles the cd command
 func (context *InputContext) HandleCD(line string) error {
-	return nil
+	
+	dirname := line[5:]
+
+	switch dirname {
+
+	case "/":	// Change to root directory
+		context.cwd = context.root
+		return nil
+
+	case "..":	// Change to parent of current working directory
+		if context.cwd.parent == nil {
+			return fmt.Errorf("cannot get parent of root")
+		}
+		context.cwd = context.cwd.parent
+		return nil
+
+	default:	// Change to specified directory
+		if !context.cwd.HasChild(dirname) {
+			context.cwd = NewDirNode(context.cwd, dirname)
+		}
+		return nil
+	}
 }
