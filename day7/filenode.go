@@ -24,20 +24,12 @@ type FileNode struct {
 // NewFileNode creates a new file node with the specified parent
 // directory, name, and size.
 func NewFileNode(parent *DirNode, name string, size int) *FileNode {
-	// Create the abstract base struct
 	node := new(Node)
-
-	// Create the FileNode object with that base struct
 	fileNode := &FileNode{node, name, parent, size}
-
-	// Tell the parent node to add this as a child
 	if parent != nil {
 		parent.children = append(parent.children, node)
 	}
-
-	// Tell the base struct that this file is its contents
 	node.INode = fileNode
-
 	return fileNode
 }
 
