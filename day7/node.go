@@ -1,37 +1,63 @@
 package main
 
-import "strings"
+import "fmt"
 
 // ---------------------------------------------------------------------
 // Type Definitions
 // ---------------------------------------------------------------------
 
-// Node is an interface that represents an entry in the file system,
-// either a directory or a file
-type Node interface {
-	Name() string              // Returns the file or directory name
-	Parent() *DirNode           // Returns the parent node
-	Size() int                 // Returns the direct or indirect size of the node
-	Children() []*AbstractNode // Returns the children of the node
+type INode interface {
+	Name() string     // Returns the node name
+	Parent() *DirNode // Returns the parent directory node
+	Size() int        // Returns the file or directory size
 }
 
-// AbstractNode is the base class for DirNode and FileNode
-type AbstractNode struct {
-	Node
+type Node struct {
+	INode
 }
 
-// String returns a string representation of this node and all its
-// parents, the full path
-func (p *AbstractNode) String() string {
-	sb := strings.Builder{}
-	if p.Parent() == nil {
-		sb.WriteString("/")
-	} else {
-		if p.Parent().Parent() != nil {
-			sb.WriteString(p.Parent().String())
-		}
-		sb.WriteString("/")
-		sb.WriteString(p.Name())
-	}
-	return sb.String()
+type DirNode struct {
+	*Node
+	name     string
+	parent   *DirNode
+	children []*Node
+}
+
+type FileNode struct {
+	*Node
+	name string
+}
+
+// ---------------------------------------------------------------------
+// Functions and methods
+// ---------------------------------------------------------------------
+
+func (pDir *DirNode) Name() string {
+	return pDir.name
+}
+
+func (pFile *FileNode) Name() string {
+	return pFile.name
+}
+
+func NewDirNode(theName string) *DirNode {
+	a := new(Node)
+	r := &DirNode{a, theName, nil, nil}
+	a.INode = r
+	return r
+}
+
+func NewFileNode(theName string) *FileNode {
+	a := new(Node)
+	r := &FileNode{a, theName}
+	a.INode = r
+	return r
+}
+
+func main() {
+	var dA INode = NewDirNode("/")
+	var dB INode = NewFileNode("bfile.txt")
+
+	fmt.Printf("dA=%v\n", dA)
+	fmt.Printf("dB=%v\n", dB)
 }
