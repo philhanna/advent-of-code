@@ -23,10 +23,10 @@ func TestDirNode_HasChild(t *testing.T) {
 	NewFileNode(d, "k", 7214296)
 
 	tests := []struct {
-		name   string
-		parent *DirNode
+		name      string
+		parent    *DirNode
 		childName string
-		want   bool
+		want      bool
 	}{
 		{"/ has child d", root, "d", true},
 		{"/a has child e", a, "e", true},
