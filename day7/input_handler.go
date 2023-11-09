@@ -21,36 +21,34 @@ type InputContext struct {
 // to that node
 func HandleInput(filename string) (*InputContext, error) {
 
-	ctx := new(InputContext)
+	// Create the input context
+	context := new(InputContext)
+	context.root = NewDirNode(nil, "/")
+	context.cwd = context.root
 
-	// Create the root node
-	ctx.root = NewDirNode(nil, "/")
-
-	// Get a pointer to the current working directory
-	ctx.cwd = ctx.root
-
-	// Load the input and apply it one line at a time
+	// Load the input
 	fp, err := os.Open(filename)
 	if err != nil {
 		return nil, err
 	}
 	defer fp.Close()
 
+	// Read the input line by line and apply it to the context
 	scanner := bufio.NewScanner(fp)
 	for scanner.Scan() {
 		line := scanner.Text()
-		err := ctx.HandleLine(line)
+		err := context.HandleLine(line)
 		if err != nil {
 			return nil, err
 		}
 	}
 
-	// Done. Everything OK.
-	return ctx, nil
+	// Done
+	return context, nil
 }
 
 // HandleLine handles one line of input in the context of the input
 // handler
-func (ctx *InputContext) HandleLine(line string) error {
+func (context *InputContext) HandleLine(line string) error {
 	return nil
 }
