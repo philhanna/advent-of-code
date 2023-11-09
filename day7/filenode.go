@@ -1,4 +1,4 @@
-package day7
+package main
 
 type FileNode struct {
 	name string
