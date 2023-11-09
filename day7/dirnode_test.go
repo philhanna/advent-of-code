@@ -96,3 +96,35 @@ func TestDirNode_ChildrenAsStrings(t *testing.T) {
 		})
 	}
 }
+
+func TestDirNode_Size(t *testing.T) {
+
+	root := NewDirNode(nil, "/")
+	a := NewDirNode(root, "a")
+	e := NewDirNode(a, "e")
+	NewFileNode(e, "i", 584)
+	NewFileNode(a, "f", 29116)
+	NewFileNode(a, "g", 2557)
+	NewFileNode(a, "h.lst", 62596)
+	NewFileNode(root, "b.txt", 14848514)
+	NewFileNode(root, "c.dat", 8504156)
+	d := NewDirNode(root, "d")
+	NewFileNode(d, "j", 4060174)
+	NewFileNode(d, "d.log", 8033020)
+	NewFileNode(d, "d.ext", 5626152)
+	NewFileNode(d, "k", 7214296)
+
+	tests := []struct {
+		name     string
+		dirNode  *DirNode
+		expected int
+	}{
+		{"/a/e", e, 584},
+		{"/d", d, 4060174 + 8033020 + 5626152 + 7214296},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.expected, tt.dirNode.Size())
+		})
+	}
+}
