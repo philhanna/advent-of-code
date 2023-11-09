@@ -22,3 +22,13 @@ func TestInputContext_HandleLS(t *testing.T) {
 	err := context.HandleLS("$ ls")
 	assert.Nil(t, err)
 }
+
+func TestInputContext_HandleCD(t *testing.T) {
+	var err error
+	var context *InputContext
+
+	context = NewContext()
+	err = context.HandleCD("$ cd a")
+	assert.Nil(t, err)
+	assert.Equal(t, "/a", context.cwd.FullPath())
+}
