@@ -67,7 +67,7 @@ func NewFileNode(parent *DirNode, name string, size int) *FileNode {
 	node := new(Node)
 
 	// Create the FileNode object with that base struct
-	fileNode := &FileNode{node, name, nil, size}
+	fileNode := &FileNode{node, name, parent, size}
 
 	// Tell the parent node to add this as a child
 	if parent != nil {
@@ -83,6 +83,59 @@ func NewFileNode(parent *DirNode, name string, size int) *FileNode {
 // ---------------------------------------------------------------------
 // Methods
 // ---------------------------------------------------------------------
+
+func (p *DirNode) String() string {
+	parts := make([]string, 0)
+	parts = append(parts, fmt.Sprintf("name=%s", p.Name()))
+	parts = append(parts, fmt.Sprintf("path=%s", p.FullPath()))
+	if p.parent == nil {
+		parts = append(parts, "parent=nil")
+	} else {
+		parts = append(parts, fmt.Sprintf("parent=%s", p.parent.Name()))
+	}
+	kids := make([]string, 0)
+	for _, child := range p.children {
+		kids = append(kids, child.Name())
+	}
+	kidString := "children=[" + strings.Join(kids, ",") + "]"
+	parts = append(parts, kidString)
+
+	result := strings.Join(parts, ",")
+	return result
+}
+
+func (p *DirNode) FullPath() string {
+	sb := strings.Builder{}
+	if p.parent == nil {
+		sb.WriteString("/")
+	} else {
+		if p.parent.parent != nil {
+			sb.WriteString(p.parent.FullPath())
+		}
+		sb.WriteString("/")
+		sb.WriteString(p.Name())
+	}
+	return sb.String()
+}
+
+func (p *FileNode) String() string {
+	parts := make([]string, 0)
+	parts = append(parts, fmt.Sprintf("name=%s", p.Name()))
+	parts = append(parts, fmt.Sprintf("parent=%s", p.parent.Name()))
+	parts = append(parts, fmt.Sprintf("path=%s", p.FullPath()))
+	result := strings.Join(parts, ",")
+	return result
+}
+
+func (p *FileNode) FullPath() string {
+	sb := strings.Builder{}
+	if p.parent.parent != nil {
+		sb.WriteString(p.parent.FullPath())
+	}
+	sb.WriteString("/")
+	sb.WriteString(p.name)
+	return sb.String()
+}
 
 // ---------------------------------------------------------------------
 // Implementation of INode interface methods
@@ -118,47 +171,12 @@ func main() {
 	a := NewDirNode(root, "a")
 	e := NewDirNode(a, "e")
 
-	// file := NewFileNode(a, "bfile.txt", 123)
+	file := NewFileNode(e, "bfile.txt", 123)
+	rootFile := NewFileNode(root, "rootFile.txt", 86)
 
 	fmt.Printf("root: %s\n", root)
+	fmt.Printf("rootFile: %s\n", rootFile)
 	fmt.Printf("a   : %s\n", a)
 	fmt.Printf("e   : %s\n", e)
-	/*
-	fmt.Printf("root base=%v,name=%s,parent=%v\n", root.Node, root.Name(), root.parent)
-	fmt.Printf("a    base=%v,name=%s,parent=%v\n", a.Node, a.Name(), a.parent)
-	fmt.Printf("e    base=%v,name=%s,parent=%v\n", e.Node, e.Name(), e.parent)
-	fmt.Println("file =", file)
-	*/
-}
-
-func (p *DirNode) String() string {
-	parts := make([]string, 0)
-	parts = append(parts, fmt.Sprintf("name=%s", p.Name()))
-	parts = append(parts, fmt.Sprintf("path=%s", p.FullPath()))
-	if p.parent != nil {
-		s := p.parent.FullPath()
-		parts = append(parts, fmt.Sprintf("parent=%s", s))
-	}
-	kids := make([]string, 0)
-	for _, child := range(p.children) {
-		kids = append(kids, child.Name())
-	}
-	kidString := "children=[" + strings.Join(kids, ",") + "]"
-	parts = append(parts, kidString)
-	result := strings.Join(parts, " ")
-	return result
-}
-
-func (p *DirNode) FullPath() string {
-	sb := strings.Builder{}
-	if p.parent == nil {
-		sb.WriteString("/")
-	} else {
-		if p.parent.parent != nil {
-			sb.WriteString(p.parent.FullPath())
-		}
-		sb.WriteString("/")
-		sb.WriteString(p.Name())
-	}
-	return sb.String()
+	fmt.Printf("file: %s\n", file)
 }
