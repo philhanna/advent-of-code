@@ -15,3 +15,9 @@ func TestHandleInput(t *testing.T) {
 	assert.NotNil(t, context.root)
 	assert.NotNil(t, context.cwd)
 }
+
+func TestInputContext_HandleLS(t *testing.T) {
+	context := NewContext()
+	err := context.HandleLS("$ ls")
+	assert.Nil(t, err)
+}
