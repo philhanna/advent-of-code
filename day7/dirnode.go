@@ -58,6 +58,17 @@ func (pDir *DirNode) Size() int {
 // Methods
 // ---------------------------------------------------------------------
 
+// HasChild returns true if this directory has the specified node as a
+// direct child.
+func (p *DirNode) HasChild(childName string) bool {
+	for _, child := range p.children {
+		if childName == child.Name() {
+			return true
+		}
+	}
+	return false
+}
+
 // String returns a string representation of this directory node
 func (p *DirNode) String() string {
 	parts := make([]string, 0)
