@@ -100,6 +100,10 @@ func (context *InputContext) HandleCD(line string) error {
 		if child == nil {
 			context.cwd = NewDirNode(context.cwd, dirname)
 		} else {
+
+			// Yes, you *can* cast an interface to a struct that
+			// implements that interface, e.g., make an INode into a
+			// *DirNode, once we know for sure it is a directory.
 			context.cwd = child.(*DirNode)
 		}
 		return nil
