@@ -1,26 +1,21 @@
 package day7
 
-// ---------------------------------------------------------------------
-// Type Definitions
-// ---------------------------------------------------------------------
+import "strings"
+
 type DirNode struct {
+	parent   *DirNode
 	name     string
 	children []*Node
 }
 
-// ---------------------------------------------------------------------
-// Constructor
-// ---------------------------------------------------------------------
-func NewDirNode(name string) *DirNode {
+func NewDirNode(parent *DirNode, name string) *DirNode {
 	p := new(DirNode)
+	p.parent = parent
 	p.name = name
 	p.children = make([]*Node, 0)
 	return p
 }
 
-// ---------------------------------------------------------------------
-// Methods
-// ---------------------------------------------------------------------
 func (pNode *DirNode) Name() string {
 	return pNode.name
 }
@@ -39,4 +34,16 @@ func (pNode *DirNode) Size() int {
 
 func (pNode *DirNode) Children() []*Node {
 	return pNode.children
+}
+
+func (p *DirNode) String() string {
+	sb := strings.Builder{}
+	if p.parent != nil {
+		if p.parent.parent != nil {
+			sb.WriteString(p.parent.Name())
+		}
+		sb.WriteString("/")
+	}
+	sb.WriteString(p.Name())
+	return sb.String()
 }

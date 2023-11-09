@@ -1,16 +1,9 @@
 package day7
 
-// ---------------------------------------------------------------------
-// Type Definitions
-// ---------------------------------------------------------------------
 type FileNode struct {
 	name string
 	size int
 }
-
-// ---------------------------------------------------------------------
-// Constructor
-// ---------------------------------------------------------------------
 
 func NewFileNode(name string, size int) *FileNode {
 	p := new(FileNode)
@@ -19,9 +12,6 @@ func NewFileNode(name string, size int) *FileNode {
 	return p
 }
 
-// ---------------------------------------------------------------------
-// Methods
-// ---------------------------------------------------------------------
 func (pNode *FileNode) Name() string {
 	return pNode.name
 }
