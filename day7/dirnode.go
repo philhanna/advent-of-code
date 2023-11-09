@@ -54,6 +54,12 @@ func (pDir *DirNode) Size() int {
 	return total
 }
 
+// StringLS returns the string that represents this directory when
+// listed with the ls command
+func (pDir *DirNode) StringLS() string {
+	return fmt.Sprintf("dir %s", pDir.name)
+}
+
 // ---------------------------------------------------------------------
 // Methods
 // ---------------------------------------------------------------------
@@ -68,6 +74,17 @@ func (p *DirNode) LookupChild(childName string) INode {
 		}
 	}
 	return nil
+}
+
+// ChildrenAsStrings returns the output of "ls" on the specified
+// directory
+func (p *DirNode) ChildrenAsStrings() []string {
+	n := len(p.children)
+	list := make([]string, n)
+	for i, child := range p.children {
+		list[i] = child.StringLS()
+	}
+	return list
 }
 
 // String returns a string representation of this directory node

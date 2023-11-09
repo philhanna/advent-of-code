@@ -82,9 +82,8 @@ func (context *InputContext) HandleLine(line string) error {
 }
 
 // HandleLS handles the ls command
-func (context *InputContext) HandleLS(line string) error {
-	// Nothing to do. Return no error
-	return nil
+func (context *InputContext) HandleLS(line string) ([]INode, error) {
+	return context.cwd.children, nil
 }
 
 // HandleCD handles the cd command

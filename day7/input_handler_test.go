@@ -19,7 +19,7 @@ func TestHandleInput(t *testing.T) {
 
 func TestInputContext_HandleLS(t *testing.T) {
 	context := NewContext()
-	err := context.HandleLS("$ ls")
+	_, err := context.HandleLS("$ ls")
 	assert.Nil(t, err)
 }
 
@@ -55,7 +55,7 @@ func TestInputContext_HandleFileSizeAndName(t *testing.T) {
 	tests := []struct {
 		name string
 		cmds []string
-		line string
+		expected []string
 	}{
 		{"subfile i",
 			[]string{
@@ -64,7 +64,9 @@ func TestInputContext_HandleFileSizeAndName(t *testing.T) {
 				"$ cd e",
 				"584 i",
 			},
-			"",
+			[]string{
+				"584 i",
+			},
 		},
 	}
 	for _, tt := range tests {
@@ -75,6 +77,8 @@ func TestInputContext_HandleFileSizeAndName(t *testing.T) {
 				err = context.HandleLine(cmd)
 				assert.Nil(t, err)
 			}
+			actual := context.cwd.ChildrenAsStrings()
+			assert.ElementsMatch(t, tt.expected, actual)
 		})
 	}
 }

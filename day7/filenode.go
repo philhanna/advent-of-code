@@ -71,3 +71,9 @@ func (pFile *FileNode) Name() string {
 func (pFile *FileNode) Size() int {
 	return pFile.size
 }
+
+// StringLS returns the string that represents this file when listed
+// with the ls command
+func (pFile *FileNode) StringLS() string {
+	return fmt.Sprintf("%d %s", pFile.size, pFile.name)
+}
