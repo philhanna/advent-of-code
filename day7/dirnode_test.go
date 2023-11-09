@@ -7,10 +7,10 @@ import (
 )
 
 func TestDirNode_String(t *testing.T) {
-	root := NewDirNode(nil, "/")
+	root := NewRootNode()
 	assert.Equal(t, "/", root.String())
-	a := NewDirNode(root, "a")
+	a := root.AddDirectory("a")
 	assert.Equal(t, "/a", a.String())
-	e := NewDirNode(a, "e")
+	e := a.AddDirectory("e")
 	assert.Equal(t, "/a/e", e.String())
 }

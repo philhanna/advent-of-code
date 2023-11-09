@@ -2,33 +2,31 @@ package main
 
 import "strings"
 
+// ---------------------------------------------------------------------
+// Type Definitions
+// ---------------------------------------------------------------------
+
+// FileNode is a node representing a file
 type FileNode struct {
+	*AbstractNode
 	parent *DirNode
 	name   string
 	size   int
 }
 
-func NewFileNode(parent *DirNode, name string, size int) *FileNode {
-	p := new(FileNode)
-	p.parent = parent
-	p.name = name
-	p.size = size
-	return p
-}
+// ---------------------------------------------------------------------
+// Functions
+// ---------------------------------------------------------------------
 
 func (pNode *FileNode) Name() string {
 	return pNode.name
-}
-
-func (pNode *FileNode) IsDir() bool {
-	return false
 }
 
 func (pNode *FileNode) Size() int {
 	return pNode.size
 }
 
-func (pNode *FileNode) Children() []*Node {
+func (pNode *FileNode) Children() []*AbstractNode {
 	return nil
 }
 

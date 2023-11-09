@@ -5,6 +5,6 @@ import (
 )
 
 func main() {
-	root := NewDirNode(nil, "/")
+	root := NewRootNode()
 	fmt.Printf("DEBUG: root=%s\n", root)
 }
