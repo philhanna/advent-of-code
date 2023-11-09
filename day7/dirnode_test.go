@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestDirNode_HasChild(t *testing.T) {
+func TestDirNode_LookupChild(t *testing.T) {
 	root := NewDirNode(nil, "/")
 	a := NewDirNode(root, "a")
 	e := NewDirNode(a, "e")
@@ -37,7 +37,13 @@ func TestDirNode_HasChild(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			assert.Equal(t, tt.want, tt.parent.HasChild(tt.childName))
+			child := tt.parent.LookupChild(tt.childName)
+			if tt.want {
+				assert.NotNil(t, child)
+				assert.Equal(t, tt.childName, child.Name())
+			} else {
+				assert.Nil(t, child)
+			}
 		})
 	}
 }

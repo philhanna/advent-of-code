@@ -14,7 +14,7 @@ type DirNode struct {
 	*Node
 	name     string
 	parent   *DirNode
-	children []*Node
+	children []INode
 }
 
 // ---------------------------------------------------------------------
@@ -26,7 +26,7 @@ type DirNode struct {
 func NewDirNode(parent *DirNode, name string) *DirNode {
 	node := new(Node)
 	dirNode := &DirNode{node, name, parent, nil}
-	dirNode.children = make([]*Node, 0)
+	dirNode.children = make([]INode, 0)
 	if parent != nil {
 		parent.children = append(parent.children, node)
 	}
@@ -58,15 +58,16 @@ func (pDir *DirNode) Size() int {
 // Methods
 // ---------------------------------------------------------------------
 
-// HasChild returns true if this directory has the specified node as a
-// direct child.
-func (p *DirNode) HasChild(childName string) bool {
+// LookupChild looks through the children of this directory node to find
+// a child with the specified name.  If found, returns that child,
+// otherwise returns nil
+func (p *DirNode) LookupChild(childName string) INode {
 	for _, child := range p.children {
 		if childName == child.Name() {
-			return true
+			return child
 		}
 	}
-	return false
+	return nil
 }
 
 // String returns a string representation of this directory node

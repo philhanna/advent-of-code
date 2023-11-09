@@ -24,14 +24,29 @@ func TestInputContext_HandleLS(t *testing.T) {
 }
 
 func TestInputContext_HandleCD(t *testing.T) {
-	
-	var (
-		err error
-		context *InputContext
-	)
+	context := NewContext()
+	err := context.HandleCD("$ cd a")
+	assert.Nil(t, err)
+	assert.Equal(t, "/a", context.cwd.FullPath())
+}
 
-	context = NewContext()
+func TestInputContext_HandleCDRoot(t *testing.T) {
+	context := NewContext()
+	err := context.HandleCD("$ cd a")
+	assert.Nil(t, err)
+	err = context.HandleCD("$ cd /")
+	assert.Nil(t, err)
+	assert.Equal(t, "/", context.cwd.FullPath())
+}
+
+func TestInputContext_HandleCDParent(t *testing.T) {
+	var err error
+	context := NewContext()
 	err = context.HandleCD("$ cd a")
+	assert.Nil(t, err)
+	err = context.HandleCD("$ cd e")
+	assert.Nil(t, err)
+	err = context.HandleCD("$ cd ..")
 	assert.Nil(t, err)
 	assert.Equal(t, "/a", context.cwd.FullPath())
 }
