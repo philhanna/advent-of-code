@@ -1,4 +1,4 @@
-module github/philhanna/advent
+module github/philhanna/advent-of-code
 
 go 1.20
 
