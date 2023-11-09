@@ -1,5 +1,8 @@
 package main
 
+import (
+)
+
 // ---------------------------------------------------------------------
 // Type Definitions
 // ---------------------------------------------------------------------
@@ -28,8 +31,7 @@ func NewRootNode() *DirNode {
 
 	// Make an instance of the base class and make this directory its
 	// base node
-	nodeStruct := new(AbstractNode)
-	nodeStruct.Node = root
+	root.Node = new(AbstractNode)
 
 	return root
 }
