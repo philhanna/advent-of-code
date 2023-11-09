@@ -67,6 +67,8 @@ func (context *InputContext) HandleLine(line string) error {
 	switch {
 	case strings.HasPrefix(line, "$ ls"):
 		context.HandleLS(line)
+	case strings.HasPrefix(line, "$ cd"):
+		context.HandleCD(line)
 	}
 	return nil
 }
