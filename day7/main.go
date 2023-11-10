@@ -34,7 +34,7 @@ func HandleDirectory(dir *DirNode) {
 		default:
 			fmt.Printf("Node %s, unknown type %T\n", child, v)
 		}
-	}	
+	}
 }
 
 func Accept(dir *DirNode) {
