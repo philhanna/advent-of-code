@@ -156,13 +156,13 @@ func (p *DirNode) String() string {
 
 // Tree applies a function to this directory then recursively applies
 // the function to each of its children
-func Tree(dir *DirNode, level int, apply func(INode, int)) {
-	apply(dir, level)
+func (p *DirNode) Tree(level int, apply func(INode, int)) {
+	apply(p, level)
 	level++
-	for _, child := range dir.children {
+	for _, child := range p.children {
 		switch v := child.(type) {
 		case *DirNode:
-			Tree(v, level, apply)
+			v.Tree(level, apply)
 		case *FileNode:
 			apply(v, level)
 		default:

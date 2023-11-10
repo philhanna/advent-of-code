@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -117,4 +119,24 @@ func TestDirNode_DeleteChild(t *testing.T) {
 	_, _, _, _ = root, a, e, d
 
 	root.DeleteChild(a.name)
+}
+
+func TestDirNode_Tree(t *testing.T) {
+
+	root, a, e, d := GetTestData()
+	_, _, _, _ = root, a, e, d
+
+	apply := func(node INode, level int) {
+		indent := strings.Repeat(" ", level*4)
+
+		nodeType := "unknown"
+		switch node.(type) {
+		case *FileNode:
+			nodeType = "File"
+		case *DirNode:
+			nodeType = "Dir"
+		}
+		fmt.Printf("%s%s %s\n", indent, nodeType, node.Name())
+	}
+	root.Tree(0, apply)
 }
