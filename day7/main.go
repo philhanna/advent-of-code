@@ -4,7 +4,7 @@ import "fmt"
 
 const (
 	FILENAME = "sampleinput.txt"
-	LIMIT = 100000
+	LIMIT    = 100000
 )
 
 func main() {
