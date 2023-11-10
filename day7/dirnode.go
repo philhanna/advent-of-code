@@ -64,6 +64,17 @@ func (pDir *DirNode) StringLS() string {
 // Methods
 // ---------------------------------------------------------------------
 
+// ChildrenAsStrings returns the output of "ls" on the specified
+// directory
+func (p *DirNode) ChildrenAsStrings() []string {
+	n := len(p.children)
+	list := make([]string, n)
+	for i, child := range p.children {
+		list[i] = child.StringLS()
+	}
+	return list
+}
+
 // DeleteChild removes the child of the specified name, if it exists.
 // If the child is a directory, removes all its children first.
 func (p *DirNode) DeleteChild(name string) {
@@ -71,6 +82,17 @@ func (p *DirNode) DeleteChild(name string) {
 	if childNode == nil {
 		fmt.Printf("DEBUG: child %s not found in %s\n", name, p.FullPath())
 	} else {
+		switch v := childNode.(type) {
+		case *DirNode:
+			fmt.Printf("DEBUG: %s is a directory\n", v)
+			for _, child := range v.children {
+				v.DeleteChild(child.Name())
+			}
+		case *FileNode:
+			fmt.Printf("DEBUG: %s is a file\n", v)
+		default:
+			fmt.Printf("DEBUG: Unknown type %t for %s\n", v, v)
+		}
 		fmt.Printf("DEBUG: removing %s from %s\n", name, p.FullPath())
 		fmt.Printf("DEBUG: old list length = %d\n", len(p.children))
 		newList := make([]INode, 0)
@@ -84,6 +106,21 @@ func (p *DirNode) DeleteChild(name string) {
 	}
 }
 
+// FullPath returns the full path for this directory node
+func (p *DirNode) FullPath() string {
+	sb := strings.Builder{}
+	if p.parent == nil {
+		sb.WriteString("/")
+	} else {
+		if p.parent.parent != nil {
+			sb.WriteString(p.parent.FullPath())
+		}
+		sb.WriteString("/")
+		sb.WriteString(p.Name())
+	}
+	return sb.String()
+}
+
 // LookupChild looks through the children of this directory node to find
 // a child with the specified name.  If found, returns that child,
 // otherwise returns nil
@@ -94,17 +131,6 @@ func (p *DirNode) LookupChild(childName string) INode {
 		}
 	}
 	return nil
-}
-
-// ChildrenAsStrings returns the output of "ls" on the specified
-// directory
-func (p *DirNode) ChildrenAsStrings() []string {
-	n := len(p.children)
-	list := make([]string, n)
-	for i, child := range p.children {
-		list[i] = child.StringLS()
-	}
-	return list
 }
 
 // String returns a string representation of this directory node
@@ -126,19 +152,4 @@ func (p *DirNode) String() string {
 
 	result := strings.Join(parts, ",")
 	return result
-}
-
-// FullPath returns the full path for this directory node
-func (p *DirNode) FullPath() string {
-	sb := strings.Builder{}
-	if p.parent == nil {
-		sb.WriteString("/")
-	} else {
-		if p.parent.parent != nil {
-			sb.WriteString(p.parent.FullPath())
-		}
-		sb.WriteString("/")
-		sb.WriteString(p.Name())
-	}
-	return sb.String()
 }

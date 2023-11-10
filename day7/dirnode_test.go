@@ -110,3 +110,11 @@ func TestDirNode_Size(t *testing.T) {
 		})
 	}
 }
+
+func TestDirNode_DeleteChild(t *testing.T) {
+
+	root, a, e, d := GetTestData()
+	_, _, _, _ = root, a, e, d
+
+	root.DeleteChild(a.name)
+}
