@@ -28,7 +28,7 @@ func NewDirNode(parent *DirNode, name string) *DirNode {
 	dirNode := &DirNode{node, name, parent, nil}
 	dirNode.children = make([]INode, 0)
 	if parent != nil {
-		parent.children = append(parent.children, node)
+		parent.children = append(parent.children, dirNode)
 	}
 	node.INode = dirNode
 	return dirNode

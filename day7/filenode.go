@@ -27,7 +27,7 @@ func NewFileNode(parent *DirNode, name string, size int) *FileNode {
 	node := new(Node)
 	fileNode := &FileNode{node, name, parent, size}
 	if parent != nil {
-		parent.children = append(parent.children, node)
+		parent.children = append(parent.children, fileNode)
 	}
 	node.INode = fileNode
 	return fileNode
