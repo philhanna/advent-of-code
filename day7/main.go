@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
 )
 
 const (
@@ -15,32 +14,6 @@ var (
 )
 
 func main() {
-	context := NewContext()
-	err := context.HandleInput(FILENAME)
-	if err != nil {
-		fmt.Printf("Could not read %s: %s\n", FILENAME, err)
-	}
-	Tree(context.root, 0)
-}
-
-func Tree(dir *DirNode, level int) {
-	indent := func(level int) string {
-		return strings.Repeat(" ", 4*level)
-	}
-	fmt.Printf("%s%s\n", indent(level), dir.Name())
-	for _, child := range dir.children {
-		switch v := child.(type) {
-		case *DirNode:
-			Tree(v, level + 1)
-		case *FileNode:
-			fmt.Printf("%s%s\n", indent(level+1), v.Name())
-		default:
-			fmt.Printf("BUG: Unknown file type %s for %s\n", v, child)
-		}
-	}
-}
-
-func Main2() {
 	context := NewContext()
 	err := context.HandleInput(FILENAME)
 	if err != nil {

@@ -153,3 +153,21 @@ func (p *DirNode) String() string {
 	result := strings.Join(parts, ",")
 	return result
 }
+
+// Tree applies a function to this directory then recursively applies
+// the function to each of its children
+func Tree(dir *DirNode, level int, apply func(INode, int)) {
+	apply(dir, level)
+	level++
+	for _, child := range dir.children {
+		switch v := child.(type) {
+		case *DirNode:
+			Tree(v, level, apply)
+		case *FileNode:
+			apply(v, level)
+		default:
+			fmt.Printf("BUG: Unknown file type %s for %s\n", v, child)
+		}
+	}
+
+}
