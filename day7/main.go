@@ -5,12 +5,9 @@ import (
 )
 
 const (
-	FILENAME = "sampleinput.txt"
-	LIMIT    = 100000
-)
-
-var (
-	totalSize = 0
+	FILENAME = "input.txt"
+	TOTAL_DISK_SPACE = 70000000
+	REQUIRED_SPACE = 30000000
 )
 
 func main() {
@@ -20,26 +17,32 @@ func main() {
 		fmt.Printf("Could not read %s: %s\n", FILENAME, err)
 	}
 
-	HandleDirectory(context.root)
-	fmt.Printf("Total size is %d\n", totalSize)
-}
+	var (
+		smallestDir *DirNode = nil
+		smallestSize = TOTAL_DISK_SPACE + 1
+		outermostDirSize = context.root.Size()
+		unusedSize = TOTAL_DISK_SPACE - outermostDirSize
+	)
 
-func HandleDirectory(dir *DirNode) {
-	if dir.Size() <= LIMIT {
-		Accept(dir)
+	willWork := func(dir *DirNode) bool {
+		return unusedSize + dir.Size() >= REQUIRED_SPACE
 	}
-	for _, child := range dir.children {
-		switch v := child.(type) {
+
+	context.root.Tree(0, func(node INode, level int) {
+		switch v := node.(type) {
 		case *DirNode:
-			HandleDirectory(v)
+			if willWork(v) {
+				if v.Size() <= smallestSize {
+					smallestDir = v
+					smallestSize = v.Size()
+				}
+			}	
 		case *FileNode:
 		default:
-			fmt.Printf("Node %s, unknown type %T\n", child, v)
+			fmt.Printf("BUG: Unknown type %s\n", v)
 		}
-	}
-}
+	})
 
-func Accept(dir *DirNode) {
-	fmt.Printf("Accepted directory %s of size %d\n", dir.FullPath(), dir.Size())
-	totalSize += dir.Size()
+	fmt.Printf("Smallest directory=%s\n", smallestDir.FullPath())
+	fmt.Printf("Smallest size=%d\n", smallestSize)
 }
