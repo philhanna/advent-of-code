@@ -14,7 +14,6 @@ type DirNode struct {
 	*Node
 	name     string
 	parent   *DirNode
-	children []INode
 }
 
 // ---------------------------------------------------------------------
@@ -25,7 +24,7 @@ type DirNode struct {
 // directory and name.
 func NewDirNode(parent *DirNode, name string) *DirNode {
 	node := new(Node)
-	dirNode := &DirNode{node, name, parent, nil}
+	dirNode := &DirNode{node, name, parent}
 	dirNode.children = make([]INode, 0)
 	if parent != nil {
 		parent.children = append(parent.children, node)
