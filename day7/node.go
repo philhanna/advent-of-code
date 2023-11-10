@@ -15,5 +15,4 @@ type INode interface {
 // Node is the abstract base type that DirNode and FileNode extend.
 type Node struct {
 	INode
-	children []INode
 }
