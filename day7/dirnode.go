@@ -64,6 +64,26 @@ func (pDir *DirNode) StringLS() string {
 // Methods
 // ---------------------------------------------------------------------
 
+// DeleteChild removes the child of the specified name, if it exists.
+// If the child is a directory, removes all its children first.
+func (p *DirNode) DeleteChild(name string) {
+	childNode := p.LookupChild(name)
+	if childNode == nil {
+		fmt.Printf("DEBUG: child %s not found in %s\n", name, p.FullPath())
+	} else {
+		fmt.Printf("DEBUG: removing %s from %s\n", name, p.FullPath())
+		fmt.Printf("DEBUG: old list length = %d\n", len(p.children))
+		newList := make([]INode, 0)
+		for _, child := range p.children {
+			if child != childNode {
+				newList = append(newList, child)
+			}
+		}
+		p.children = newList
+		fmt.Printf("DEBUG: new list length = %d\n", len(p.children))
+	}
+}
+
 // LookupChild looks through the children of this directory node to find
 // a child with the specified name.  If found, returns that child,
 // otherwise returns nil
