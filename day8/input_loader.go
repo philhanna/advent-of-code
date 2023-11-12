@@ -6,9 +6,18 @@ import (
 	"os"
 )
 
+// ---------------------------------------------------------------------
+// Type Definitions
+// ---------------------------------------------------------------------
+type Data [][]byte
+type Vector []byte
+
+// ---------------------------------------------------------------------
+// Functions
+// ---------------------------------------------------------------------
 // LoadInput reads the problem input and converts it into a
 // two-dimensional slice of byte slices.
-func LoadInput(filename string) [][]byte {
+func LoadInput(filename string) Data {
 
 	// Open the input file or die trying
 	fp, err := os.Open(filename)
@@ -34,4 +43,15 @@ func LoadInput(filename string) [][]byte {
 
 	// Done
 	return output
+}
+
+// ---------------------------------------------------------------------
+// Methods
+// ---------------------------------------------------------------------
+func (data Data) GetRow(row int) Vector {
+	vector := Vector{}
+	for col := 0; col < len(data[row]); col++ {
+		vector = append(vector, data[row][col])
+	}
+	return vector
 }

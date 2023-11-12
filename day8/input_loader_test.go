@@ -29,3 +29,24 @@ func TestLoadInput(t *testing.T) {
 		})
 	}
 }
+
+func TestData_GetRow(t *testing.T) {
+	data := LoadInput("testdata/sample.dat")
+
+	tests := []struct {
+		name      string
+		rowNumber int
+		want      Vector
+	}{
+		{"top", 0, []byte{3, 0, 3, 7, 3}},
+		{"interior", 2, []byte{6, 5, 3, 3, 2}},
+		{"bottom", 4, []byte{3, 5, 3, 9, 0}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			have := data.GetRow(tt.rowNumber)
+			want := tt.want
+			assert.Equal(t, want, have)
+		})
+	}
+}
