@@ -13,10 +13,10 @@ func TestLoadInput(t *testing.T) {
 		row      int
 		col      int
 		expected byte
-	}{		
-		{"topLeft", "testdata/sample.dat", 0, 0, '3'},
-		{"bottomRight", "testdata/sample.dat", 4, 4, '0'},
-		{"interior", "testdata/sample.dat", 3, 2, '5'},
+	}{
+		{"topLeft", "testdata/sample.dat", 0, 0, 3},
+		{"bottomRight", "testdata/sample.dat", 4, 4, 0},
+		{"interior", "testdata/sample.dat", 3, 2, 5},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
