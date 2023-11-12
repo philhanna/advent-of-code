@@ -9,8 +9,8 @@ import (
 // ---------------------------------------------------------------------
 // Type Definitions
 // ---------------------------------------------------------------------
-type Data [][]byte
 type Vector []byte
+type Data []Vector
 
 // ---------------------------------------------------------------------
 // Functions
@@ -27,11 +27,11 @@ func LoadInput(filename string) Data {
 	defer fp.Close()
 
 	// Read each line and convert it to a slice of bytes
-	output := make([][]byte, 0)
+	output := make([]Vector, 0)
 	scanner := bufio.NewScanner(fp)
 	for scanner.Scan() {
 		line := scanner.Text()
-		newRow := make([]byte, len(line))
+		newRow := make(Vector, len(line))
 		for i := 0; i < len(line); i++ {
 			byteValue := line[i] - '0' // Convert char to int
 			newRow[i] = byteValue
