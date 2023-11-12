@@ -80,21 +80,15 @@ func (p *DirNode) ChildrenAsStrings() []string {
 func (p *DirNode) DeleteChild(name string) {
 	childNode := p.LookupChild(name)
 	if childNode == nil {
-		fmt.Printf("DEBUG: child %s not found in %s\n", name, p.FullPath())
 	} else {
 		switch v := childNode.(type) {
 		case *DirNode:
-			fmt.Printf("DEBUG: %s is a directory\n", v)
 			for _, child := range v.children {
 				v.DeleteChild(child.Name())
 			}
 		case *FileNode:
-			fmt.Printf("DEBUG: %s is a file\n", v)
 		default:
-			fmt.Printf("DEBUG: Unknown type %t for %s\n", v, v)
 		}
-		fmt.Printf("DEBUG: removing %s from %s\n", name, p.FullPath())
-		fmt.Printf("DEBUG: old list length = %d\n", len(p.children))
 		newList := make([]INode, 0)
 		for _, child := range p.children {
 			if child != childNode {
@@ -102,7 +96,6 @@ func (p *DirNode) DeleteChild(name string) {
 			}
 		}
 		p.children = newList
-		fmt.Printf("DEBUG: new list length = %d\n", len(p.children))
 	}
 }
 
