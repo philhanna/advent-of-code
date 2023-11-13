@@ -48,6 +48,34 @@ func LoadData(filename string) Data {
 // Methods
 // ---------------------------------------------------------------------
 
+func (data Data) CountVisible() int {
+	count := 0
+	for row := 0; row < len(data); row++ {
+		for col := 0; col < len(data); col++ {
+			if data.Visible(row, col) {
+				count++
+			}
+		}
+	}
+	return count
+}
+
+func (data Data) Visible(row, col int) bool {
+	if data.VisibleUp(row, col) {
+		return true
+	}
+	if data.VisibleDown(row, col) {
+		return true
+	}
+	if data.VisibleLeft(row, col) {
+		return true
+	}
+	if data.VisibleRight(row, col) {
+		return true
+	}
+	return false
+}
+
 // VisibleUp returns true if the tree at this row and column is visible
 // from above
 func (data Data) VisibleUp(row, col int) bool {

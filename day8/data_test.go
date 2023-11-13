@@ -129,3 +129,19 @@ func TestData_VisibleRight(t *testing.T) {
 		})
 	}
 }
+
+func TestData_CountVisible(t *testing.T) {
+	data := LoadData("testdata/sample.dat")
+
+	tests := []struct {
+		name string
+		want int
+	}{
+		{"sample.dat", 21},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.want, data.CountVisible())
+		})
+	}
+}
