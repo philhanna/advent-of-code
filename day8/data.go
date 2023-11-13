@@ -61,6 +61,88 @@ func (data Data) CountVisible() int {
 	return count
 }
 
+// ScenicScore returns the product of the viewing distance in each of
+// the four directions
+func (data Data) ScenicScore(row, col int) int {
+	dists := []int{
+		data.ViewingDistanceUp(row, col),
+		data.ViewingDistanceLeft(row, col),
+		data.ViewingDistanceRight(row, col),
+		data.ViewingDistanceDown(row, col),
+	}
+	product := 1
+	for _, dist := range dists {
+		product = product * dist
+	}
+	return product
+}
+
+// ViewingDistanceUp returns the number of trees you can see looking up
+func (data Data) ViewingDistanceUp(row, col int) int {
+	count := 0
+	if row > 0 {
+		this := data[row][col]
+		for r := row - 1; r >= 0; r-- {
+			count++
+			that := data[r][col]
+			if that >= this {
+				break
+			}
+		}
+	}
+	return count
+}
+
+// ViewingDistanceDown returns the number of trees you can see looking down
+func (data Data) ViewingDistanceDown(row, col int) int {
+	nRows := len(data)
+	count := 0
+	if row <= nRows {
+		this := data[row][col]
+		for r := row + 1; r < nRows; r++ {
+			count++
+			that := data[r][col]
+			if that >= this {
+				break
+			}
+		}
+	}
+	return count
+}
+
+// ViewingDistanceLeft returns the number of trees you can see looking to the left
+func (data Data) ViewingDistanceLeft(row, col int) int {
+	count := 0
+	if col > 0 {
+		this := data[row][col]
+		for c := col - 1; c >= 0; c-- {
+			count++
+			that := data[row][c]
+			if that >= this {
+				break
+			}
+		}
+	}
+	return count
+}
+
+// ViewingDistanceRight returns the number of trees you can see looking right
+func (data Data) ViewingDistanceRight(row, col int) int {
+	nCols := len(data)
+	count := 0
+	if col <= nCols {
+		this := data[row][col]
+		for c := col + 1; c < nCols; c++ {
+			count++
+			that := data[row][c]
+			if that >= this {
+				break
+			}
+		}
+	}
+	return count
+}
+
 // Visible returns true if the tree at this row and column is visible
 // from any of the four directions.
 func (data Data) Visible(row, col int) bool {

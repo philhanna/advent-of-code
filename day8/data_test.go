@@ -145,3 +145,23 @@ func TestData_CountVisible(t *testing.T) {
 		})
 	}
 }
+
+func TestData_ScenicScore(t *testing.T) {
+	data := LoadData("testdata/sample.dat")
+	tests := []struct {
+		name string
+		row int
+		col int
+		want int
+	}{
+		{"first choice", 1, 2, 4},
+		{"second choice", 3, 2, 8},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			have := data.ScenicScore(tt.row, tt.col)
+			want := tt.want
+			assert.Equal(t, want, have)
+		})
+	}
+}
