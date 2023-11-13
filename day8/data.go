@@ -61,13 +61,15 @@ func (data Data) CountVisible() int {
 }
 
 func (data Data) Visible(row, col int) bool {
-	x := make([]func(int, int) bool, 4)
-	x[0] = data.VisibleUp
-	x[1] = data.VisibleDown
-	x[2] = data.VisibleLeft
-	x[3] = data.VisibleRight
 
-	for i := 0; i < 4; i++ {
+	// Make a list of functions to test with
+	x := []func(int, int) bool {
+		data.VisibleUp,
+		data.VisibleDown,
+		data.VisibleLeft,
+		data.VisibleRight,
+	}
+	for i := 0; i < len(x); i++ {
 		if x[i](row, col) {
 			return true
 		}
