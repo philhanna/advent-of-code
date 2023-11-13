@@ -6,21 +6,21 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestLoadInput(t *testing.T) {
+func TestLoadData(t *testing.T) {
+	data := LoadData("testdata/sample.dat")
+
 	tests := []struct {
 		name     string
-		filename string
 		row      int
 		col      int
 		expected byte
 	}{
-		{"topLeft", "testdata/sample.dat", 0, 0, 3},
-		{"bottomRight", "testdata/sample.dat", 4, 4, 0},
-		{"interior", "testdata/sample.dat", 3, 2, 5},
+		{"topLeft", 0, 0, 3},
+		{"bottomRight", 4, 4, 0},
+		{"interior", 3, 2, 5},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			data := LoadInput(tt.filename)
 			assert.True(t, len(data) >= tt.row)
 			rowData := data[tt.row]
 			assert.True(t, len(rowData) >= tt.col)
@@ -31,7 +31,7 @@ func TestLoadInput(t *testing.T) {
 }
 
 func TestData_GetRow(t *testing.T) {
-	data := LoadInput("testdata/sample.dat")
+	data := LoadData("testdata/sample.dat")
 
 	tests := []struct {
 		name      string

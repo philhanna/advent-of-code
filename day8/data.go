@@ -15,9 +15,9 @@ type Data []Vector
 // ---------------------------------------------------------------------
 // Functions
 // ---------------------------------------------------------------------
-// LoadInput reads the problem input and converts it into a
+// LoadData reads the problem input and converts it into a
 // two-dimensional slice of byte slices.
-func LoadInput(filename string) Data {
+func LoadData(filename string) Data {
 
 	// Open the input file or die trying
 	fp, err := os.Open(filename)
