@@ -30,86 +30,40 @@ func TestLoadData(t *testing.T) {
 	}
 }
 
-func TestData_GetCol(t *testing.T) {
+func TestData_EdgeTreesAllVisible(t *testing.T) {
 	data := LoadData("testdata/sample.dat")
+	nRows := len(data)
+	nCols := nRows
 
-	tests := []struct {
-		name      string
-		colNumber int
-		want      Vector
-	}{
-		{"left", 0, []byte{3, 2, 6, 3, 3}},
-		{"interior", 1, []byte{0, 5, 5, 3, 5}},
-		{"right", 4, []byte{3, 2, 2, 9, 0}},
+	for col := 0; col < nCols; col++ {
+		assert.True(t, data.VisibleUp(0, col))
+		assert.True(t, data.VisibleDown(nRows-1, col))
 	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			have := data.GetCol(tt.colNumber)
-			want := tt.want
-			assert.Equal(t, want, have)
-		})
+
+	for row := 0; row < nRows; row++ {
+		assert.True(t, data.VisibleLeft(row, 0))
+		assert.True(t, data.VisibleRight(row, nCols-1))
 	}
 }
 
-func TestData_GetReversedCol(t *testing.T) {
-	data := LoadData("testdata/sample.dat")
-
+func TestData_VisibleUp(t *testing.T) {
+	type args struct {
+		row int
+		col int
+	}
 	tests := []struct {
-		name      string
-		colNumber int
-		want      Vector
+		name string
+		data Data
+		args args
+		want bool
 	}{
-		{"left", 0, []byte{3, 3, 6, 2, 3}},
-		{"interior", 1, []byte{5, 3, 5, 5, 0}},
-		{"right", 4, []byte{0, 9, 2, 2, 3}},
+		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			have := data.GetReversedCol(tt.colNumber)
-			want := tt.want
-			assert.Equal(t, want, have)
-		})
-	}
-}
-
-func TestData_GetRow(t *testing.T) {
-	data := LoadData("testdata/sample.dat")
-
-	tests := []struct {
-		name      string
-		rowNumber int
-		want      Vector
-	}{
-		{"top", 0, []byte{3, 0, 3, 7, 3}},
-		{"interior", 2, []byte{6, 5, 3, 3, 2}},
-		{"bottom", 4, []byte{3, 5, 3, 9, 0}},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			have := data.GetRow(tt.rowNumber)
-			want := tt.want
-			assert.Equal(t, want, have)
-		})
-	}
-}
-
-func TestData_GetReversedRow(t *testing.T) {
-	data := LoadData("testdata/sample.dat")
-
-	tests := []struct {
-		name      string
-		rowNumber int
-		want      Vector
-	}{
-		{"top", 0, []byte{3, 7, 3, 0, 3}},
-		{"interior", 2, []byte{2, 3, 3, 5, 6}},
-		{"bottom", 4, []byte{0, 9, 3, 5, 3}},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			have := data.GetReversedRow(tt.rowNumber)
-			want := tt.want
-			assert.Equal(t, want, have)
+			if got := tt.data.VisibleUp(tt.args.row, tt.args.col); got != tt.want {
+				t.Errorf("Data.VisibleUp() = %v, want %v", got, tt.want)
+			}
 		})
 	}
 }

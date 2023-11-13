@@ -9,7 +9,7 @@ import (
 // ---------------------------------------------------------------------
 // Type Definitions
 // ---------------------------------------------------------------------
-type Data []Vector
+type Data [][]byte
 
 // ---------------------------------------------------------------------
 // Functions
@@ -26,11 +26,11 @@ func LoadData(filename string) Data {
 	defer fp.Close()
 
 	// Read each line and convert it to a slice of bytes
-	output := make([]Vector, 0)
+	output := make([][]byte, 0)
 	scanner := bufio.NewScanner(fp)
 	for scanner.Scan() {
 		line := scanner.Text()
-		newRow := make(Vector, len(line))
+		newRow := make([]byte, len(line))
 		for i := 0; i < len(line); i++ {
 			byteValue := line[i] - '0' // Convert char to int
 			newRow[i] = byteValue
@@ -48,29 +48,26 @@ func LoadData(filename string) Data {
 // Methods
 // ---------------------------------------------------------------------
 
-func (data Data) GetCol(col int) Vector {
-	vector := Vector{}
-	for _, rowVector := range data {
-		entry := rowVector[col]
-		vector = append(vector, entry)
-	}
-	return vector
+// VisibleUp returns true if the tree at this row and column is visible
+// from above
+func (data Data) VisibleUp(row, col int) bool {
+	return false
 }
 
-func (data Data) GetReversedCol(col int) Vector {
-	vector := data.GetCol(col)
-	return vector.Reverse()
+// VisibleDown returns true if the tree at this row and column is visible
+// from below
+func (data Data) VisibleDown(row, col int) bool {
+	return false
 }
 
-func (data Data) GetRow(row int) Vector {
-	vector := Vector{}
-	for col := 0; col < len(data[row]); col++ {
-		vector = append(vector, data[row][col])
-	}
-	return vector
+// VisibleLeft returns true if the tree at this row and column is visible
+// from the left
+func (data Data) VisibleLeft(row, col int) bool {
+	return false
 }
 
-func (data Data) GetReversedRow(row int) Vector {
-	vector := data.GetRow(row)
-	return vector.Reverse()
+// VisibleRight returns true if the tree at this row and column is visible
+// from the right
+func (data Data) VisibleRight(row, col int) bool {
+	return false
 }
