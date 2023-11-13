@@ -88,3 +88,23 @@ func TestData_VisibleDown(t *testing.T) {
 		})
 	}
 }
+
+func TestData_VisibleLeft(t *testing.T) {
+	data := LoadData("testdata/sample.dat")
+
+	tests := []struct {
+		name string // test name
+		row  int    // tree row
+		col  int    // tree column
+		want bool
+	}{
+		{"0, 1", 0, 1, false},
+		{"0, 2", 0, 2, false},
+		{"0, 3", 0, 3, true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.want, data.VisibleLeft(tt.row, tt.col))
+		})
+	}
+}
