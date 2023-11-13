@@ -32,6 +32,7 @@ func TestLoadData(t *testing.T) {
 
 func TestData_EdgeTreesAllVisible(t *testing.T) {
 	data := LoadData("testdata/sample.dat")
+
 	nRows := len(data)
 	nCols := nRows
 
@@ -47,23 +48,23 @@ func TestData_EdgeTreesAllVisible(t *testing.T) {
 }
 
 func TestData_VisibleUp(t *testing.T) {
-	type args struct {
-		row int
-		col int
-	}
+	data := LoadData("testdata/sample.dat")
+
 	tests := []struct {
-		name string
-		data Data
-		args args
+		name string // test name
+		row  int    // tree row
+		col  int    // tree column
 		want bool
 	}{
-		// TODO: Add test cases.
+		{"1,1", 1, 1, true},
+		{"2,1", 2, 1, false},
+		{"2,2", 2, 2, false},
+		{"4,1", 4, 1, false},
+		{"4,3", 4, 3, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.data.VisibleUp(tt.args.row, tt.args.col); got != tt.want {
-				t.Errorf("Data.VisibleUp() = %v, want %v", got, tt.want)
-			}
+			assert.Equal(t, tt.want, data.VisibleUp(tt.row, tt.col))
 		})
 	}
 }
