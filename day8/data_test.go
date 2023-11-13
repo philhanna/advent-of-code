@@ -108,3 +108,24 @@ func TestData_VisibleLeft(t *testing.T) {
 		})
 	}
 }
+
+func TestData_VisibleRight(t *testing.T) {
+	data := LoadData("testdata/sample.dat")
+
+	tests := []struct {
+		name string // test name
+		row  int    // tree row
+		col  int    // tree column
+		want bool
+	}{
+		{"0, 0", 0, 0, false},
+		{"0, 3", 0, 3, true},
+		{"2, 2", 2, 2, false},
+		{"2, 3", 2, 3, true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.want, data.VisibleRight(tt.row, tt.col))
+		})
+	}
+}
