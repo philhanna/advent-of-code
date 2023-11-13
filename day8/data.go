@@ -48,6 +48,7 @@ func LoadData(filename string) Data {
 // Methods
 // ---------------------------------------------------------------------
 
+// CountVisible returns the number of visible trees in this input data
 func (data Data) CountVisible() int {
 	count := 0
 	for row := 0; row < len(data); row++ {
@@ -60,10 +61,12 @@ func (data Data) CountVisible() int {
 	return count
 }
 
+// Visible returns true if the tree at this row and column is visible
+// from any of the four directions.
 func (data Data) Visible(row, col int) bool {
 
 	// Make a list of functions to test with
-	x := []func(int, int) bool {
+	x := []func(int, int) bool{
 		data.VisibleUp,
 		data.VisibleDown,
 		data.VisibleLeft,
@@ -81,7 +84,7 @@ func (data Data) Visible(row, col int) bool {
 // from above
 func (data Data) VisibleUp(row, col int) bool {
 	thisHeight := data[row][col]
-	for r := row-1; r >= 0; r-- {
+	for r := row - 1; r >= 0; r-- {
 		thatHeight := data[r][col]
 		if thatHeight >= thisHeight {
 			return false
@@ -95,7 +98,7 @@ func (data Data) VisibleUp(row, col int) bool {
 func (data Data) VisibleDown(row, col int) bool {
 	nRows := len(data)
 	thisHeight := data[row][col]
-	for r := row+1; r < nRows; r++ {
+	for r := row + 1; r < nRows; r++ {
 		thatHeight := data[r][col]
 		if thatHeight >= thisHeight {
 			return false
@@ -108,7 +111,7 @@ func (data Data) VisibleDown(row, col int) bool {
 // from the left
 func (data Data) VisibleLeft(row, col int) bool {
 	thisHeight := data[row][col]
-	for c := col-1; c >= 0; c-- {
+	for c := col - 1; c >= 0; c-- {
 		thatHeight := data[row][c]
 		if thatHeight >= thisHeight {
 			return false
@@ -122,7 +125,7 @@ func (data Data) VisibleLeft(row, col int) bool {
 func (data Data) VisibleRight(row, col int) bool {
 	nCols := len(data)
 	thisHeight := data[row][col]
-	for c := col+1; c < nCols; c++ {
+	for c := col + 1; c < nCols; c++ {
 		thatHeight := data[row][c]
 		if thatHeight >= thisHeight {
 			return false
