@@ -51,7 +51,7 @@ func TestData_GetCol(t *testing.T) {
 	}
 }
 
-func TestData_GetColReversed(t *testing.T) {
+func TestData_GetReversedCol(t *testing.T) {
 	data := LoadData("testdata/sample.dat")
 
 	tests := []struct {
@@ -65,7 +65,7 @@ func TestData_GetColReversed(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			have := data.GetColReversed(tt.colNumber)
+			have := data.GetReversedCol(tt.colNumber)
 			want := tt.want
 			assert.Equal(t, want, have)
 		})

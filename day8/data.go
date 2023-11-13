@@ -9,7 +9,6 @@ import (
 // ---------------------------------------------------------------------
 // Type Definitions
 // ---------------------------------------------------------------------
-type Vector []byte
 type Data []Vector
 
 // ---------------------------------------------------------------------
@@ -49,14 +48,6 @@ func LoadData(filename string) Data {
 // Methods
 // ---------------------------------------------------------------------
 
-func (vector Vector) Reverse() Vector {
-	n := len(vector)
-	for i, j := 0, n-1; i < n/2; i, j = i+1, j-1 {
-		vector[i], vector[j] = vector[j], vector[i]
-	}
-	return vector
-}
-
 func (data Data) GetCol(col int) Vector {
 	vector := Vector{}
 	for _, rowVector := range data {
@@ -66,9 +57,9 @@ func (data Data) GetCol(col int) Vector {
 	return vector
 }
 
-func (data Data) GetColReversed(col int) Vector {
+func (data Data) GetReversedCol(col int) Vector {
 	vector := data.GetCol(col)
-	return vector
+	return vector.Reverse()
 }
 
 func (data Data) GetRow(row int) Vector {
@@ -80,9 +71,6 @@ func (data Data) GetRow(row int) Vector {
 }
 
 func (data Data) GetReversedRow(row int) Vector {
-	vector := Vector{}
-	for col := len(data[row])-1; col >= 0; col-- {
-		vector = append(vector, data[row][col])
-	}
-	return vector
+	vector := data.GetRow(row)
+	return vector.Reverse()
 }
