@@ -51,23 +51,53 @@ func LoadData(filename string) Data {
 // VisibleUp returns true if the tree at this row and column is visible
 // from above
 func (data Data) VisibleUp(row, col int) bool {
-	return false
+	thisHeight := data[row][col]
+	for r := row-1; r >= 0; r-- {
+		thatHeight := data[r][col]
+		if thatHeight >= thisHeight {
+			return false
+		}
+	}
+	return true
 }
 
 // VisibleDown returns true if the tree at this row and column is visible
 // from below
 func (data Data) VisibleDown(row, col int) bool {
-	return false
+	nRows := len(data)
+	thisHeight := data[row][col]
+	for r := row+1; r < nRows; r++ {
+		thatHeight := data[r][col]
+		if thatHeight >= thisHeight {
+			return false
+		}
+	}
+	return true
 }
 
 // VisibleLeft returns true if the tree at this row and column is visible
 // from the left
 func (data Data) VisibleLeft(row, col int) bool {
-	return false
+	thisHeight := data[row][col]
+	for c := col-1; c >= 0; c-- {
+		thatHeight := data[row][c]
+		if thatHeight >= thisHeight {
+			return false
+		}
+	}
+	return true
 }
 
 // VisibleRight returns true if the tree at this row and column is visible
 // from the right
 func (data Data) VisibleRight(row, col int) bool {
-	return false
+	nCols := len(data)
+	thisHeight := data[row][col]
+	for c := col+1; c < nCols; c++ {
+		thatHeight := data[row][c]
+		if thatHeight >= thisHeight {
+			return false
+		}
+	}
+	return true
 }
