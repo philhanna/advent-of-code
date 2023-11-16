@@ -3,6 +3,7 @@
 ### Knot
 - A knot has a row and column, which are updated when it moves.
 - There are only two knots in the puzzle; a **head** knot and a **tail** knot.
+- The starting position is treated as a knot that never moves.
 
 ### Touching
 The head and tail knots are considered to be *touching* if any of these
@@ -45,6 +46,19 @@ happened to the head:
 
 ## Functions
 
+### Apply moves from puzzle input
+1. Initialize a grid with head, tail, and start knots with row and column equal to zero.
+2. Read the puzzle input one line at a time
+3. Parse the input line into a **move** *(UDLR)* and a **count**
+4. Move the head according the the **move**. After the move,
+   if the head and tail are no longer touching (*see definition*),
+   then move the tail as described in the definition.
+5. Keep a list of the row and column of each position of the tail. Eliminate duplicates.
+5. Do this for **count** iterations
+6. (optional) Draw the grid for visual inspection and debugging
+7. After processing all the input, draw the grid with "#" at each position visited by the tail.
+8. Return the length of the visited list (with duplicates eliminated).
+
 ### Draw the grid
 1. Represent
    - the head knot as ***H***
@@ -62,3 +76,6 @@ happened to the head:
      to one greater than the highest row
    - Columns one less than the lowest column to one greater than the highest
 5. Normalize all drawn rows and column so that the lowest is zero
+6. If drawing the "tail visited positions" grid, show only the
+   tail positions as **#** and the rest of the grid as **.** as
+   described in step 4.
