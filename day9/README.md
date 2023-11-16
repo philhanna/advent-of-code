@@ -8,20 +8,23 @@ gorge which was carved out by the massive river far below you.
 
 You step carefully; as you do, the ropes stretch and twist. You decide
 to distract yourself by modeling rope physics; maybe you can even figure
-out where not to step.
+out where *not* to step.
 
-Consider a rope with a knot at each end; these knots mark the head and
-the tail of the rope. If the head moves far enough away from the tail,
+Consider a rope with a knot at each end; these knots mark the *head* and
+the *tail* of the rope. If the head moves far enough away from the tail,
 the tail is pulled toward the head.
 
-Due to nebulous reasoning involving Planck lengths, you should be able
-to model the positions of the knots on a two-dimensional grid. Then, by
-following a hypothetical series of motions (your puzzle input) for the
-head, you can determine how the tail will move.
+Due to nebulous reasoning involving
+[Planck lengths](https://en.wikipedia.org/wiki/Planck_units#Planck_length),
+you should be able to model the positions of the knots on a
+two-dimensional grid. Then, by following a hypothetical *series of
+motions* (your puzzle input) for the head, you can determine how the
+tail will move.
 
-Due to the aforementioned Planck lengths, the rope must be quite short;
-in fact, the head (H) and tail (T) must always be touching (diagonally
-adjacent and even overlapping both count as touching):
+<span title="I'm an engineer, not a physicist!">Due to the aforementioned Planck lengths</span>,
+the rope must be quite short; in fact, the head (**H**) and tail
+(**T**) must *always be touching* (diagonally adjacent and even
+overlapping both count as touching):
 ```
 .TH.
 ....
