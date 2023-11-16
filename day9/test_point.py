@@ -10,3 +10,7 @@ def test_knot_touches(row1, col1, row2, col2, expected):
     tail = Point(row2, col2)
     actual = head.touches(tail)
     assert expected == actual
+
+if __name__ == '__main__':
+    pytest.main()
+
