@@ -2,6 +2,7 @@ import pytest
 
 from point import Point
 
+
 @pytest.mark.parametrize("row1,col1,row2,col2,expected", [
     (3, 4, 3, 4, True),     # Same point
     (2, 3, 2, 4, True),     # One to the right
@@ -17,6 +18,6 @@ def test_touches(row1, col1, row2, col2, expected):
     actual = head.touches(tail)
     assert expected == actual
 
+
 if __name__ == '__main__':
     pytest.main()
-
