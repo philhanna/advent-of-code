@@ -22,7 +22,7 @@ true:
 or, equivalently:
 
 |row<sub><i>H</i></sub> - row<sub><i>T</i></sub>| +
-|col<sub><i>H</i></sub> - col<sub><i>T</i></sub>| &le; 1
+|col<sub><i>H</i></sub> - col<sub><i>T</i></sub>| &le; 2
 
 
 ### Move

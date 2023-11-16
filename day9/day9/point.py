@@ -14,4 +14,4 @@ class Point:
         if coldif < 0:
             coldif = -coldif
 
-        return rowdif + coldif <= 1
+        return rowdif + coldif <= 2
