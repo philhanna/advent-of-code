@@ -1,8 +1,7 @@
 import pytest
 
-from point import Point
-from knot import Knot
-
+from day9 import Point
+from day9 import Knot
 @pytest.mark.parametrize("row,col,direction,want_row,want_col", [
     (1, 5, "U", 0, 5),
     (1, 5, "D", 2, 5),
@@ -18,4 +17,3 @@ def test_move(row, col, direction, want_row, want_col):
 
 if __name__ == '__main__':
     pytest.main()
-
