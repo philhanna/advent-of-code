@@ -15,8 +15,6 @@ from part1 import get_grid
 def test_get_grid(head, tail, start, expected):
     actual = get_grid(head, tail, start)
     assert expected == actual
-    pass
 
 if __name__ == '__main__':
     pytest.main()
-
