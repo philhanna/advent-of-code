@@ -26,6 +26,8 @@ def test_move(row, col, direction, want_row, want_col):
     (2, 6, 2, 7, "U", 2, 7),    # tail starts one to the right, head moves up
     (2, 6, 1, 6, "U", 1, 6),    # tail starts one up, head moves up
     (1, 6, 2, 5, "U", 1, 6),    # tail southeast one, head moves up
+    (3, 3, 4, 2, "U", 3, 3),    # tail southeast, head moves up
+    (3, 3, 4, 2, "R", 3, 3),    # tail southeast, head moves right
 ])
 def test_follows(hrow, hcol, trow, tcol, direction, want_row, want_col):
     head = Knot("H", Point(hrow, hcol))
