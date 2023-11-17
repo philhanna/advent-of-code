@@ -15,3 +15,6 @@ class Point:
             coldif = -coldif
 
         return rowdif + coldif <= 2
+    
+    def __eq__(self, other):
+        return self.row == other.row and self.col == other.col
