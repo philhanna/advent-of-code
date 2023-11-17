@@ -1,6 +1,6 @@
 import pytest
 
-from day9 import Point
+from point import Point
 
 @pytest.mark.parametrize("row1,col1,row2,col2,expected", [
     (3, 4, 3, 4, True),     # Same point

@@ -1,7 +1,7 @@
 import pytest
 
-from day9 import Point
-from day9 import Knot
+from point import Point
+from knot import Knot
 
 
 @pytest.mark.parametrize("row,col,direction,want_row,want_col", [
