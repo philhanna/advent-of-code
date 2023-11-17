@@ -11,5 +11,11 @@ class Point:
     def __eq__(self, other):
         return self.row == other.row and self.col == other.col
     
+    def __str__(self):
+        return repr(self)
+    
     def __repr__(self):
         return f"({self.row},{self.col})"
+    
+    def __hash__(self):
+        return hash(str(self))

@@ -2,10 +2,10 @@
 
 from point import Point
 from knot import Knot
-from grid import get_grid
+from grid import get_grid, get_visited_grid
 
 FILENAME = "testdata/sample.dat"
-DEBUG = True
+DEBUG = False
 
 # Initialize a grid with head, tail, and start knots with row and column
 # equal to zero.
@@ -15,10 +15,9 @@ tail = Knot("T", Point(0, 0))
 start = Point(0, 0)
 
 # Keep a list of the row and column of each position of the tail.
-# Eliminate duplicates.
 
-vlist = []
-vlist.append(start)
+vlist = set()
+vlist.add(start)
 if DEBUG:
     print("\n".join(get_grid(head.point, tail.point, start)))
 
@@ -39,10 +38,19 @@ with open(FILENAME) as fp:
         for i in range(int(count)):
             head.move(direction)
             tail.follow(head, direction)
-            if tail.point not in vlist:                
-                vlist.append(tail.point)
+            vlist.add(Point(tail.point.row, tail.point.col))
 
             # (optional) Draw the grid for visual inspection and debugging
             if DEBUG:
                 print()
                 print("\n".join(get_grid(head.point, tail.point, start)))
+                print(f"{vlist}")
+
+# (optional) Show the visited grid
+if DEBUG:
+    vgrid = get_visited_grid(vlist)
+    print()
+    print("\n".join(vgrid))
+
+# Print the number of points the tail visited at least once
+print(f"Total visited points = {len(vlist)}")
