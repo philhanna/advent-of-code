@@ -37,3 +37,4 @@ def get_grid(head: Point, tail: Point, start: Point) -> []:
 
     # Return the list of grid lines
     return grid
+
