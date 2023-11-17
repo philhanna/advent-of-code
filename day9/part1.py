@@ -4,7 +4,7 @@ from point import Point
 from knot import Knot
 from grid import get_grid, get_visited_grid
 
-FILENAME = "testdata/sample.dat"
+FILENAME = "testdata/input.dat"
 DEBUG = False
 
 # Initialize a grid with head, tail, and start knots with row and column
