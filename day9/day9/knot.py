@@ -1,5 +1,3 @@
-from .point import Point
-
 class Knot:
     def __init__(self, name, point):
         self.name = name
@@ -17,3 +15,12 @@ class Knot:
             self.point.col += 1
         else:
             raise RuntimeError(f"Undefined direction \"{direction}\"")
+    
+    def follow(self, head, direction):
+        """ Adjust tail position to follow the head """
+        if not self.point.touches(head.point):
+            self.move(direction)
+            if direction in ["U", "D"]:
+                self.point.col = head.point.col
+            elif direction in ["L", "R"]:
+                self.point.row = head.point.row
