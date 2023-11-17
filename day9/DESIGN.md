@@ -19,14 +19,7 @@ true:
 (row<sub><i>H</i></sub> - row<sub><i>T</i></sub>)<sup>2</sup> + 
 (col<sub><i>H</i></sub> - col<sub><i>T</i></sub>)<sup>2</sup> &le; 2
 
-or, equivalently:
-
-|row<sub><i>H</i></sub> - row<sub><i>T</i></sub>| +
-|col<sub><i>H</i></sub> - col<sub><i>T</i></sub>| &le; 2
-
-
 ### Move
-
 Knots move as follows:
 - To move **up**, subtract 1 from the row
 - To move **down**, add 1 to the row
@@ -49,8 +42,8 @@ happened to the head:
 ### Apply moves from puzzle input
 1. Initialize a grid with head, tail, and start knots with row and column equal to zero.
 2. Read the puzzle input one line at a time
-3. Parse the input line into a **move** *(UDLR)* and a **count**
-4. Move the head according the the **move**. After the move,
+3. Parse the input line into a **direction** *(UDLR)* and a **count**
+4. Move the head according the the **direction**. After the move,
    if the head and tail are no longer touching (*see definition*),
    then move the tail as described in the definition.
 5. Keep a list of the row and column of each position of the tail. Eliminate duplicates.

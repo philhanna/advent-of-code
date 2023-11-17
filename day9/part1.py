@@ -1,40 +1,48 @@
 #! /usr/bin/python
 
 from point import Point
+from knot import Knot
+from grid import get_grid
 
-def get_grid(head: Point, tail: Point, start: Point) -> []:
-    """ Creates a grid with the head, tail, and starting points for
-    visual inspection and debugging. Empty squares are shown as ".".
-    The grid is returned as a list of strings.
-    """
+FILENAME = "testdata/sample.dat"
+DEBUG = True
 
-    # Find the lowest and highest row and column
-    points = [head, tail, start]
-    rows = [p.row for p in points]
-    cols = [p.col for p in points]
-    minRow = min(rows)
-    minCol = min(cols)
-    maxRow = max(rows)
-    maxCol = max(cols)
+# Initialize a grid with head, tail, and start knots with row and column
+# equal to zero.
 
-    # Create a list of strings
-    grid = []
+head = Knot("H", Point(0, 0))
+tail = Knot("T", Point(0, 0))
+start = Point(0, 0)
 
-    # Create each row of the list
-    for row in range(minRow, maxRow+1):
-        gridRow = ""
-        for col in range(minCol, maxCol+1):
-            point = Point(row, col)
-            gridPoint = "."
-            if point == start:
-                gridPoint = "s"
-            elif point == tail:
-                gridPoint = "T"
-            elif point == head:
-                gridPoint = "H"
-            gridRow += gridPoint
-        grid.append(gridRow)
+# Keep a list of the row and column of each position of the tail.
+# Eliminate duplicates.
 
-    # Return the list of grid lines
-    return grid
+vlist = []
+vlist.append(start)
+if DEBUG:
+    print("\n".join(get_grid(head.point, tail.point, start)))
 
+# Read the puzzle input one line at a time
+
+with open(FILENAME) as fp:
+    for line in fp:
+        line = line.rstrip()        # remove newline
+
+        # Parse the input line into a direction (UDLR) and a count
+
+        direction, count = line.split()
+
+        # Move the head according the the direction. After the move, if
+        # the head and tail are no longer touching (see definition),
+        # then move the tail as described in the definition.
+
+        for i in range(int(count)):
+            head.move(direction)
+            tail.follow(head, direction)
+            if tail.point not in vlist:                
+                vlist.append(tail.point)
+
+            # (optional) Draw the grid for visual inspection and debugging
+            if DEBUG:
+                print()
+                print("\n".join(get_grid(head.point, tail.point, start)))

@@ -18,6 +18,7 @@ def test_move(row, col, direction, want_row, want_col):
     assert want_col == point.col
 
 @pytest.mark.parametrize("hrow,hcol,trow,tcol,direction,want_row,want_col", [
+    (1, 2, 1, 1, "R", 1, 2),
     (1, 3, 1, 3, "U", 1, 3),    # Same starting point
     (1, 3, 1, 3, "D", 1, 3),    # Same starting point
     (1, 3, 1, 3, "L", 1, 3),    # Same starting point
@@ -29,7 +30,7 @@ def test_move(row, col, direction, want_row, want_col):
     (3, 3, 4, 2, "U", 3, 3),    # tail southeast, head moves up
     (3, 3, 4, 2, "R", 3, 3),    # tail southeast, head moves right
 ])
-def test_follows(hrow, hcol, trow, tcol, direction, want_row, want_col):
+def test_follow(hrow, hcol, trow, tcol, direction, want_row, want_col):
     head = Knot("H", Point(hrow, hcol))
     tail = Knot("T", Point(trow, tcol))
     head.move(direction)

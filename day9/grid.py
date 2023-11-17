@@ -27,9 +27,9 @@ def get_grid(head: Point, tail: Point, start: Point) -> []:
             gridPoint = "."
             if point == start:
                 gridPoint = "s"
-            elif point == tail:
+            if point == tail:
                 gridPoint = "T"
-            elif point == head:
+            if point == head:
                 gridPoint = "H"
             gridRow += gridPoint
         grid.append(gridRow)

@@ -9,6 +9,7 @@ from point import Point
     (2, 3, 1, 3, True),     # Up one row
     (2, 3, 3, 3, True),     # Down one row
     (1, 5, 2, 6, True),     # Diagonally adjacent
+    (1, 1, 1, 3, False),
     (3, 5, 1, 4, False),    # Too far apart
 ])
 def test_touches(row1, col1, row2, col2, expected):

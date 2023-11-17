@@ -18,7 +18,8 @@ class Knot:
     
     def follow(self, head, direction):
         """ Adjust tail position to follow the head """
-        if not self.point.touches(head.point):
+        stillTouches = self.point.touches(head.point)
+        if not stillTouches:
             self.move(direction)
             if direction in ["U", "D"]:
                 self.point.col = head.point.col
