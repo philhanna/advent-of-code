@@ -1,4 +1,3 @@
-import pytest
 from point import Point
 
 def get_grid(head: Point, tail: Point, start: Point) -> []:
